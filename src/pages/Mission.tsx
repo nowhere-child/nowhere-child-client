@@ -7,7 +7,7 @@ export default function Mission() {
         className="rounded-lg bg-primary px-6 py-3 text-white hover:bg-primary/90"
         href="/mission/1"
       >
-        미션 시작
+        미션 시2
       </a>
     </main>
   );
