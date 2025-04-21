@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+/* 전역 커스텀 (예: body 폰트) */
+html,
+body {
+  @apply bg-background text-foreground antialiased;
+}
