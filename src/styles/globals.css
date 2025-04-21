@@ -4,7 +4,9 @@
 @tailwind utilities;
 
 /* 전역 커스텀 (예: body 폰트) */
-html,
+html {
+  -webkit-text-size-adjust: 100%; /* iOS 텍스트 자동 확대 방지 */
+}
 body {
   @apply bg-background text-foreground antialiased;
 }
