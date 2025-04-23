@@ -1,12 +1,13 @@
+/* src/styles/globals.css */
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "tailwindcss/preflight";
-@tailwind utilities;
 
-/* 전역 커스텀 (예: body 폰트) */
+/* 전역 스타일 */
 html {
   -webkit-text-size-adjust: 100%; /* iOS 텍스트 자동 확대 방지 */
 }
-body {
-  @apply bg-background text-foreground antialiased;
-}
+
+/* ✅ 바르게 적용하려면 직접 색상 변수로 대체 필요 */
+/* body {
+  font-family: sans-serif;
+} */
