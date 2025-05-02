@@ -2,14 +2,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* 전역 스타일 */
+:root {
+  /* 초기값 폴백: 100vh */
+  --vh: 100vh;
+}
 html,
-body {
-  height: 100%;
-  overflow: hidden; /* 기본적으로 스크롤 비활성화 */
-  background-color: #000; /* 하얀 영역 방지용 배경색 */
-  overscroll-behavior: none; /* iOS 바운스 스크롤 방지 */
-  -webkit-text-size-adjust: 100%; /* iOS 텍스트 자동 확대 방지 */
+body,
+#root,
+.app {
+  height: calc(var(--vh));
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none; /* 바운스 스크롤 억제 */
 }
 
 /* ✅ 바르게 적용하려면 직접 색상 변수로 대체 필요 */
