@@ -28,7 +28,11 @@ const EnterCodePage = () => {
         </div>
       </div>
       {/* 버튼 영역 */}
-      <FooterBar disabled={!hook.isComplete} onSubmit={hook.submit} />
+      <FooterBar
+        disabled={!hook.isComplete}
+        onSubmit={hook.submit}
+        message="입장하기"
+      />
     </div>
   );
 };
