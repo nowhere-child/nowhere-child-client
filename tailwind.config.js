@@ -10,6 +10,14 @@ module.exports = {
         foreground: "#f8fafc", // 밝은 텍스트
         primary: "#2563eb", // 예시 색상
       },
+      spacing: {
+        // --vh 변수 그대로 쓰기
+        "screen-vh": "calc(var(--vh))",
+      },
+      height: {
+        // --vh 변수 그대로 height로 쓰기
+        "screen-vh": "calc(var(--vh))",
+      },
     },
   },
 
@@ -22,4 +30,8 @@ module.exports = {
       });
     },
   ],
+  borderColor: {
+    DEFAULT: "#313131",
+    focus: "#E1E1E1",
+  },
 };
