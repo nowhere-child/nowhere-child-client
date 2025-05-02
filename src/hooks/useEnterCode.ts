@@ -27,7 +27,7 @@ export function useEnterCode() {
   const submit = () => {
     if (!isComplete) return;
     setCode(codes.join(""));
-    navigate("/info");
+    navigate("/profile");
   };
 
   return {
