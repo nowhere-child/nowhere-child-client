@@ -3,20 +3,22 @@
 @import "tw-animate-css";
 
 :root {
-  /* 초기값 폴백: 100vh */
-  --vh: 100vh;
+  --vh: 100vh; /* iOS 100 vh 보정 */
 }
+
 html,
-body,
-#root,
-.app {
+body {
   height: calc(var(--vh));
   margin: 0;
   padding: 0;
-  overscroll-behavior: none; /* 바운스 스크롤 억제 */
+
+  /* 가로·대각선 바운스 차단 */
+  overflow-x: hidden;
+  overscroll-behavior: none; /* rubber‑band 방지 */
 }
 
-/* ✅ 바르게 적용하려면 직접 색상 변수로 대체 필요 */
-/* body {
-  font-family: sans-serif;
-} */
+/* 루트 컨테이너 */
+#root,
+.app {
+  height: 100%; /* 이미 위에서 vh 적용했으므로 100% */
+}
