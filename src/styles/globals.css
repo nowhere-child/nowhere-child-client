@@ -6,7 +6,13 @@
   --vh: 100vh; /* iOS 100 vh 보정 */
 }
 
-html,
+/* iOS에서 전체 페이지에 적용할 스타일 */
+html {
+  position: fixed; /* 가로 스크롤 방지에 도움 */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 body {
   height: calc(var(--vh));
   margin: 0;
