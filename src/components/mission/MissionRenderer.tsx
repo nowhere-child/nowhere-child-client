@@ -10,11 +10,11 @@ export default function MissionRenderer({ step }: { step: Step }) {
     <section className="h-dvh flex flex-col overflow-x-hidden bg-[#1A1A1A] px-5">
       {/* 스냅 컨테이너 */}
       <h2 className="text-xl">{step.title}</h2>
-      <div className="flex-1 overflow-y-scroll snap-y snap-mandatory scroll-smooth space-y-4 justify-center items-center">
+      <div className="flex-1 overflow-y-scroll snap-y snap-mandatory scroll-smooth space-y-4 justify-center items-center [&::-webkit-scrollbar]:hidden">
         {step.blocks.map((block, i) => (
           <div
             key={i}
-            className="snap-start overflow-x-hidden min-h-full flex items-center flex-col justify-center gap-5 mb-[66px]"
+            className="snap-start overflow-x-hidden min-h-full flex items-center flex-col justify-center gap-5"
           >
             <BlockRenderer block={block} />
             {i === step.blocks.length - 1 && (
@@ -23,8 +23,6 @@ export default function MissionRenderer({ step }: { step: Step }) {
           </div>
         ))}
       </div>
-      {/* 답안 입력 바 */}
-      {/* <AnswerBar config={step.answerBar} onSuccess={goNext} /> */}
     </section>
   );
 }

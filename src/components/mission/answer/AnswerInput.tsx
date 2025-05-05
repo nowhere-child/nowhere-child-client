@@ -14,7 +14,7 @@ export default function AnswerInput({
   onChange,
 }: AnswerInputProps) {
   return (
-    <div className="flex items-center w-full rounded-[24px] bg-[#1E1E1E]/80 px-6 py-4">
+    <div className="flex items-center w-full rounded-[24px] bg-[#1E1E1E]/80 px-6 py-4 mb-20">
       <input
         className="flex-1 bg-transparent outline-none text-[17px] text-main
                    placeholder:text-gray-500"

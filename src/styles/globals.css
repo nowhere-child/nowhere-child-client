@@ -2,8 +2,21 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* src/styles/globals.css */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* jihye 폰트 등록 */
+@font-face {
+  font-family: "Jihye";
+  src: url("../assets/font/jihye.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --vh: 100vh; /* iOS 100 vh 보정 */
+  --vh: 100vh; /* iOS 100 vh 보정 */
 }
 
 /* iOS에서 전체 페이지에 적용할 스타일 */
@@ -27,4 +40,19 @@ body {
 #root,
 .app {
   height: 100%; /* 이미 위에서 vh 적용했으므로 100% */
+}
+
+/* 폰트 유틸리티 클래스 추가 */
+.font-jihye {
+  font-family: "Jihye", sans-serif;
+}
+
+:root {
+  --vh: 100vh; /* iOS 100 vh 보정 */
+}
+
+@layer utilities {
+  .font-hand {
+    font-family: "Gochi Hand", cursive;
+  }
 }

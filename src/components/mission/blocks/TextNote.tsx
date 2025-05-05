@@ -19,6 +19,7 @@ const linePaperStyle: React.CSSProperties = {
   /* baseline 바로 아래에 선이 오도록 Y 오프셋 */
   backgroundPosition: `0 ${NOTE_LH + 17}px`,
   backgroundRepeat: "repeat-y",
+  fontFamily: "'Jihye', sans-serif", // 폰트 직접 적용
 };
 
 export const TextNote: React.FC<TextNoteProps> = ({ text }) => {
