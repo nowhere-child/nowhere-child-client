@@ -22,7 +22,7 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   code: "",
   nickname: "",
   currentStep: 0,
-  totalSteps: 5,
+  totalSteps: 8,
   hintsUsed: {},
   startedAt: null,
 
