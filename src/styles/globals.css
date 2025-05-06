@@ -55,4 +55,20 @@ body {
   .font-hand {
     font-family: "Gochi Hand", cursive;
   }
+
+  @keyframes slideUpFadeIn {
+    0% {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* 실제 애니메이션 유틸 */
+  .animate-slideUpFadeIn {
+    animation: slideUpFadeIn 0.4s ease-out both;
+  }
 }

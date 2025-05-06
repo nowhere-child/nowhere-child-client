@@ -10,7 +10,7 @@ const LINE_COLOR = "#d9d9d9"; // 줄 색
 const PAPER_COLOR = "#EFEBE7"; // 종이 배경
 
 /** 재사용 가능한 스타일 객체 */
-const linePaperStyle: React.CSSProperties = {
+export const linePaperStyle: React.CSSProperties = {
   lineHeight: `${NOTE_LH}px`,
   backgroundColor: PAPER_COLOR,
   /* 한 블록(행) 안에 위쪽 1px 을 선, 나머지는 투명 → repeat‑y */
