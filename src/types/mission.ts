@@ -1,4 +1,4 @@
-export type Preset = "Note" | "PostIt" | "Letter";
+export type Preset = "Note" | "Sticky" | "Letter";
 
 /** ①콘텐츠 블록 -------------------------------------------------- */
 export type Block =

@@ -1,5 +1,6 @@
 import { Block } from "@/types/mission";
 import { FolderNote } from "./blocks/FolderNote";
+import { StickyNote } from "./blocks/StickyNote";
 import { TextNote } from "./blocks/TextNote";
 
 export default function BlockRenderer({ block }: { block: Block }) {
@@ -11,6 +12,8 @@ export default function BlockRenderer({ block }: { block: Block }) {
             <FolderNote text={block.text} />
           </>
         );
+      } else if (block.preset === "Sticky") {
+        return <StickyNote text={block.text} />;
       } else {
         return <TextNote text={block.text} />;
       }
