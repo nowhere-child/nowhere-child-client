@@ -16,8 +16,13 @@ export default function MissionEngine() {
       {/* <FolderNote
         text={`정확히 말하자면, 오늘은 매우 중요한 날이야.\n보통의 날이 아니야, 뭔가 특별한 일이 일어날 거야.`}
       /> */}
-      <div className="overflow-y-auto pt-[34px]">
-        <MissionRenderer step={scenario.steps[currentStep]} />
+      <div className="relative flex-1">
+        <div
+          key={currentStep} // step 바뀔 때마다 마운트 트리거
+          className="absolute inset-0 animate-slideUpFadeIn"
+        >
+          <MissionRenderer step={scenario.steps[currentStep]} />
+        </div>
       </div>
 
       <StickyBottomBar />

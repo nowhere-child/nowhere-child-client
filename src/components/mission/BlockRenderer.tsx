@@ -1,12 +1,16 @@
 import { Block } from "@/types/mission";
+import { FolderNote } from "./blocks/FolderNote";
 import { TextNote } from "./blocks/TextNote";
 
 export default function BlockRenderer({ block }: { block: Block }) {
   switch (block.type) {
     case "TXT":
-      if (block.preset === "PostIt") {
-        return;
-        console.log("postIt");
+      if (block.preset === "Letter") {
+        return (
+          <>
+            <FolderNote text={block.text} />
+          </>
+        );
       } else {
         return <TextNote text={block.text} />;
       }
