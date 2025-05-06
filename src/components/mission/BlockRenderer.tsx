@@ -4,7 +4,12 @@ import { TextNote } from "./blocks/TextNote";
 export default function BlockRenderer({ block }: { block: Block }) {
   switch (block.type) {
     case "TXT":
-      return <TextNote text={block.text} />;
+      if (block.preset === "PostIt") {
+        return;
+        console.log("postIt");
+      } else {
+        return <TextNote text={block.text} />;
+      }
     case "IMG":
       return (
         <img

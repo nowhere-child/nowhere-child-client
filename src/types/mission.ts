@@ -1,7 +1,9 @@
+export type Preset = "Note" | "PostIt" | "Letter";
+
 /** ①콘텐츠 블록 -------------------------------------------------- */
 export type Block =
   | { type: "TITLE"; text: string }
-  | { type: "TXT"; text: string }
+  | { type: "TXT"; text: string; preset: Preset }
   | { type: "IMG"; src: string; alt?: string; height?: number }
   | { type: "CAR"; images: string[]; autoplay?: number }
   | { type: "CODE"; text: string }; // 고정폭 암호문
