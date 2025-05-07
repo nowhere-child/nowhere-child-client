@@ -2,16 +2,15 @@ import { MissionScenario } from "@/types/mission";
 
 /* as const 모든 문자열을 literal 로 고정 */
 export const demoMission: MissionScenario = {
-  missionId: "demo_mission",
-
+  missionId: "night_skull_uos",
   steps: [
     {
-      id: "welcome",
+      id: "1",
       title: "Night Skull: Chapter 1",
       blocks: [
         {
           type: "TXT",
-          preset: "Sticky",
+          preset: "Note",
           text: "그가 주로 머물던 곳… 그 공간. \n 분명 무언가를 숨기고 있었어. \n아픈 아이들이 문을 열고 들어갔고,누군가는 컵라면을 먹으며 웃고 있었지.하지만 웃음은 오래가지 않았어.1층에선 커피 향이 퍼졌고,소파에 누군가 몸을 웅크린 채 잠들어 있었지.TV는 꺼져 있었고, 창밖은… 해가 지지 않았어.시간이 멈춘 것처럼.",
         } as const,
         {
