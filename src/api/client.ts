@@ -1,14 +1,18 @@
-import { ProfileForm } from "@/hooks/useProfileForm";
+// src/api/client.ts
+import axios from "axios";
+import { toast } from "sonner";
 
-/** 팀명 중복 확인 – 400 ms 딜레이 후 임의 로직 */
-export async function checkTeamName(name: string): Promise<boolean> {
-  await new Promise((r) => setTimeout(r, 400));
-  // 예: 'admin', 'test' 는 중복 처리
-  return !["ADMIN", "TEST"].includes(name.toUpperCase());
-}
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? "/api",
+  withCredentials: true,
+  timeout: 10_000,
+});
 
-/** 프로필 제출 – 600 ms 후 콘솔 출력 */
-export async function submitProfile(data: ProfileForm): Promise<void> {
-  await new Promise((r) => setTimeout(r, 600));
-  console.log("✔️ submitted profile", data);
-}
+// 공통 에러 핸들
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    toast.error(err.response?.data?.message ?? "네트워크 오류");
+    return Promise.reject(err);
+  }
+);
