@@ -118,6 +118,23 @@ export const ProfileFormFields = ({ onDup }: Props) => {
           </FieldRow>
         )}
       />
+      {/* 전화번호 */}
+      <FormField
+        name="phoneNumber"
+        control={form.control}
+        render={({ field }) => (
+          <FieldRow label="전화번호">
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="숫자만 적어주세요"
+                inputMode="numeric"
+                className={inputClass}
+              />
+            </FormControl>
+          </FieldRow>
+        )}
+      />
       {/* ▼ 단과대학 */}
       <FormField
         name="college"
@@ -205,7 +222,7 @@ export const ProfileFormFields = ({ onDup }: Props) => {
       />
       {/* 입학년도 */}
       <FormField
-        name="year"
+        name="yearOfAdmission"
         control={form.control}
         render={({ field }) => (
           <FieldRow label="입학년도">
