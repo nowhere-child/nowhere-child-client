@@ -1,30 +1,39 @@
-import { demoMission as scenario } from "@/data/demoMission";
+// src/components/mission/MissionEngine.tsx
+import { useAnswer } from "@/hooks/useAnswer";
+import { useMission } from "@/hooks/useMission";
 import { useMissionStore } from "@/store/missionStore";
-
 import StickyBottomBar from "../common/BottomBar";
 import MissionProgressBar from "../common/MissionProgressBar";
 import MissionRenderer from "./MissionRenderer";
 
-/* MissionEngine.tsx */
 export default function MissionEngine() {
-  const { currentStep } = useMissionStore();
+  const { missionId } = useMissionStore();
+  const { data: missionData } = useMission({
+    missionOrder: missionId ?? 1, // 기본값 1
+    gameId: 1,
+    language: "KO",
+  });
+  const { data: answerdata } = useAnswer({
+    missionOrder: missionId ?? 1, // 기본값 1
+    gameId: 1,
+    language: "KO",
+  });
+  console.log("missionData", missionData);
+  console.log("answerdata", answerdata);
+
+  if (!missionData) return null;
 
   return (
     <div className="flex flex-col h-screen-vh bg-background text-main">
       <MissionProgressBar />
-      {/* <div className="h-100" /> */}
-      {/* <FolderNote
-        text={`정확히 말하자면, 오늘은 매우 중요한 날이야.\n보통의 날이 아니야, 뭔가 특별한 일이 일어날 거야.`}
-      /> */}
       <div className="relative flex-1">
-        <div
-          key={currentStep} // step 바뀔 때마다 마운트 트리거
-          className="absolute inset-0 animate-slideUpFadeIn"
-        >
-          <MissionRenderer step={scenario.steps[currentStep]} />
+        <div key={missionId} className="absolute inset-0 animate-slideUpFadeIn">
+          <MissionRenderer
+            blocks={missionData.data.blocks}
+            answer={answerdata}
+          />
         </div>
       </div>
-
       <StickyBottomBar />
     </div>
   );
