@@ -1,13 +1,12 @@
 import * as MemberAPI from "@/api/member";
 import { LoginParams, SignupParams } from "@/api/member";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 /* 인증코드 확인 훅 */
-export const useCheckAuthCode = (authenticateCode: number) =>
-  useQuery({
-    queryKey: ["authCode", authenticateCode],
-    queryFn: () => MemberAPI.checkAuthCode(authenticateCode),
-    enabled: !!authenticateCode, // 코드가 존재할 때만 실행
+export const useCheckAuthCode = () =>
+  useMutation({
+    mutationFn: (authenticateCode: number) =>
+      MemberAPI.checkAuthCode(authenticateCode),
   });
 
 /* 로그인 훅 */
