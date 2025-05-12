@@ -14,10 +14,12 @@ export const MissionResponseSchema = z.object({
     order: z.number(),
     missionBlockType: z.string(),
     language: z.string(),
-    block1: z.string(),
-    block2: z.string(),
-    block3: z.string(),
-    block4: z.string(),
+    blocks: z.array(
+      z.object({
+        preset: z.string(),
+        text: z.string(),
+      })
+    ),
   }),
 });
 

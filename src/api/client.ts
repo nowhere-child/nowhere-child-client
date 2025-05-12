@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? "/api",
-  withCredentials: true,
+  // withCredentials: false,
   timeout: 10_000,
 });
 

@@ -19,7 +19,12 @@ export const fetchAnswer = async (params: {
   language: string;
 }) => {
   const { data } = await api.get("/answers", { params });
-  return AnswerSchema.parse(data.data);
+  if (data.code !== 200) {
+    throw new Error(data.message);
+  }
+  console.log("fetchAnswer", data);
+  const parsed = AnswerSchema.parse(data.data);
+  return parsed;
 };
 
 export const submitAnswer = async (params: {
