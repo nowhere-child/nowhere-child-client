@@ -6,7 +6,7 @@ import { api } from "./client";
 export const TeamNameCheckResponseSchema = z.object({
   code: z.number(),
   message: z.string(),
-  data: z.record(z.never()).optional(),
+  data: z.record(z.never()).optional().nullable(),
 });
 
 export const IssueTeamResponseSchema = z.object({

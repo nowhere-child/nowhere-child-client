@@ -8,11 +8,15 @@ export const checkAuthCode = async (authenticateCode: number) => {
   });
   return z
     .object({
-      isLeader: z.boolean(),
-      memberId: z.number(),
-      participated: z.boolean(),
+      code: z.literal(200),
+      message: z.string(),
+      data: z.object({
+        isLeader: z.boolean(),
+        memberId: z.number().nullable(),
+        participated: z.boolean(),
+      }),
     })
-    .parse(data.data);
+    .parse(data);
 };
 
 export type LoginParams = {
@@ -40,12 +44,13 @@ export type SignupParams = {
   role: "ROLE_USER" | "ROLE_ADMIN";
 };
 
+export const SignUpResponseSchema = z.object({
+  code: z.number(),
+  message: z.string(),
+  data: z.record(z.never()).optional().nullable(),
+});
+
 export const signup = async (body: SignupParams) => {
   const { data } = await api.post("/members/sign-up", body);
-  return z
-    .object({
-      accessToken: z.string(),
-      refreshToken: z.string(),
-    })
-    .parse(data.data);
+  return SignUpResponseSchema.parse(data);
 };

@@ -13,6 +13,6 @@ export const fetchMission = async ({
       language,
     },
   });
-  const parsed = MissionResponseSchema.parse(data.data);
-  return parsed.data;
+  const parsed = MissionResponseSchema.parse(data);
+  return parsed;
 };
