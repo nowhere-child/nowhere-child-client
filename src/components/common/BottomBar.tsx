@@ -1,5 +1,7 @@
 // src/components/common/BottomBar.tsx
+import { ChatSheet } from "@/chat/ChatSheet";
 import { Lightbulb, MapPin, MessageCircle } from "lucide-react";
+import { SheetTrigger } from "../ui/sheet";
 import HintDialog from "./HintDialog";
 
 export default function StickyBottomBar() {
@@ -9,11 +11,14 @@ export default function StickyBottomBar() {
         <button type="button" className="bg-zinc-300 rounded-4xl p-1">
           <MapPin className="w-6 h-6" />
         </button>
-        <button type="button" className="bg-zinc-300 rounded-4xl p-1">
-          <MessageCircle className="w-6 h-6" />
-        </button>
+        <ChatSheet>
+          <SheetTrigger asChild>
+            <button className="p-2">
+              <MessageCircle className="w-5 h-5" />
+            </button>
+          </SheetTrigger>
+        </ChatSheet>
 
-        {/* 힌트 아이콘 → Dialog 트리거 */}
         <HintDialog>
           <button type="button" className="bg-zinc-300 rounded-4xl p-1">
             <Lightbulb className="w-6 h-6" />
