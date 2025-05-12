@@ -1,44 +1,59 @@
 // src/components/mission/AnswerBar.tsx
-import { AnswerBarConfig } from "@/types/mission";
 import { useState } from "react";
 import AnswerInput from "./answer/AnswerInput";
 
+export interface AnswerData {
+  gameId: number;
+  order: number;
+  answerBlockType: string;
+  language: string;
+}
 interface Props {
-  config: AnswerBarConfig;
+  config: AnswerData;
   onSuccess: () => void;
 }
 
 export default function AnswerBar({ config, onSuccess }: Props) {
   const [v, setV] = useState("");
+  console.log("AnswerBar config", config);
 
-  switch (config.mode) {
-    case "INPUT_TEXT":
+  switch (config.answerBlockType) {
+    case "INPUT_STRING":
       return (
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (v.trim().toUpperCase() === config.solution!.toUpperCase()) {
-              onSuccess();
-            }
+            onSuccess();
           }}
           className="px-5 pb-6 safe-bottom"
         >
           <AnswerInput
             value={v}
             onChange={setV}
-            placeholder={config.placeholder}
+            placeholder="정답을 입력하세요"
           />
         </form>
       );
 
-    case "BUTTON":
+    case "SINGLE_BUTTON":
       return (
         <div className="px-5 pb-6 safe-bottom">
           <button
             onClick={onSuccess}
             className="w-full py-4 rounded-[20px] bg-primary text-white text-lg"
           >
-            {config.label ?? "확인"}
+            {"확인"}
+          </button>
+        </div>
+      );
+    case "GPS":
+      return (
+        <div className="px-5 pb-6 safe-bottom">
+          <button
+            onClick={onSuccess}
+            className="w-full py-4 rounded-[20px] bg-primary text-white text-lg"
+          >
+            {"확인"}
           </button>
         </div>
       );
