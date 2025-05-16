@@ -7,6 +7,7 @@ export const AnswerSchema = z.object({
   order: z.number(),
   answerBlockType: z.string(),
   language: z.string(),
+  answer: z.string().optional(),
 });
 
 export const SubmitAnswerSchema = z.object({
@@ -22,7 +23,6 @@ export const fetchAnswer = async (params: {
   if (data.code !== 200) {
     throw new Error(data.message);
   }
-  console.log("fetchAnswer", data);
   const parsed = AnswerSchema.parse(data.data);
   return parsed;
 };
