@@ -18,6 +18,7 @@ interface MissionState {
   hydrate: (data: Partial<MissionState>) => void;
   reset: () => void;
   setRole: (role: "ROLE_USER" | "ROLE_ADMIN") => void;
+  setMissionId: (id: number) => void;
 }
 
 export const useMissionStore = create<MissionState>((set, get) => ({
@@ -44,6 +45,7 @@ export const useMissionStore = create<MissionState>((set, get) => ({
     }
   },
   setRole: (role) => set({ role }),
+  setMissionId: (missionId) => set({ missionId }),
   hydrate: (data) => set((state) => ({ ...state, ...data })),
   reset: () =>
     set({
