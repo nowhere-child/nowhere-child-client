@@ -1,5 +1,4 @@
 // src/components/mission/MissionRenderer.tsx
-import { useMissionStore } from "@/store/missionStore";
 import AnswerBar, { AnswerData } from "./AnswerBar";
 import BlockRenderer from "./BlockRenderer";
 
@@ -24,15 +23,7 @@ export default function MissionRenderer({
   blocks: MissionBlock[];
   answer: AnswerData | undefined; // TODO: Define the type for answer
 }) {
-  console.log("ss", answer);
-  const goNextMission = useMissionStore((s) => s.goNextMission);
-  const missionId = useMissionStore((s) => s.missionId);
-
-  const handleNext = () => {
-    // 임시로 다음 missionId +1 (실제 로직은 record 기반으로 fetch)
-    goNextMission((missionId ?? 0) + 1);
-    window.scrollTo(0, 0);
-  };
+  // const goNextMission = useMissionStore((s) => s.goNextMission);
 
   return (
     <section className="h-dvh flex flex-col overflow-x-hidden bg-[#1A1A1A] px-5">
@@ -45,10 +36,7 @@ export default function MissionRenderer({
             {block.preset === "Letter" && <div className="h-20" />}
             <BlockRenderer block={block} />
             {i === blocks.length - 1 && (
-              <>
-                {answer && <AnswerBar config={answer} onSuccess={handleNext} />}
-                <div>asd</div>
-              </>
+              <>{answer && <AnswerBar config={answer} />}</>
             )}
           </div>
         ))}
