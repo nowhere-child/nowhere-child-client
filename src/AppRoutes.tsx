@@ -1,6 +1,7 @@
 import Home from "@/pages/Home";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import Admin from "./pages/Admin";
 import MissionPage from "./pages/MissionPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResultPage from "./pages/ResultPage";
@@ -28,6 +29,7 @@ export default function AppRoutes() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/mission" element={<MissionPage />} />
       <Route path="/result" element={<ResultPage />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="*" element={<div>404</div>} />
     </Routes>
   );
