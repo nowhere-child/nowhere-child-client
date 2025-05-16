@@ -1,32 +1,39 @@
+/* src/components/rank/RankingCard.tsx */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function RankingCard() {
+interface Props {
+  place: number; // 1,2,3 …
+  teamName: string;
+  score: number;
+  tags: string[]; // 학부/학과 등
+}
+export default function RankingCard({ place, teamName, score, tags }: Props) {
   return (
-    <div className="max-w-full mx-auto my-10">
-      <Card className="relative border-2 bg-white text-black border-blue-500 rounded-xl overflow-visible max-h-[110px] p-1">
-        <div className="absolute -top-0 left-6 -translate-y-1/2">
-          <Badge className="bg-blue-500 hover:bg-blue-500 text-white px-4 py-0.5 text-lg rounded-full">
-            1st
-          </Badge>
+    <Card
+      className="relative border-2 border-blue-500 bg-white text-black
+                     rounded-xl w-[220px] h-[110px] shrink-0 p-1"
+    >
+      <Badge className="absolute -top-0 left-6 -translate-y-1/2 bg-blue-500 text-white px-4 py-0.5">
+        {place}st
+      </Badge>
+
+      <CardContent className="px-3 py-3 space-y-1">
+        <p className="font-medium truncate">{teamName}</p>
+        <div className="flex gap-1">
+          {tags.map((t) => (
+            <span
+              key={t}
+              className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-md text-xs"
+            >
+              {t}
+            </span>
+          ))}
         </div>
-        <CardContent className="px-3 py-3">
-          <h3 className="mb-1">Nowhere child</h3>
-
-          <div className="flex gap-2 mb-1">
-            <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-lg text-sm">
-              검공
-            </span>
-            <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-lg text-sm">
-              디학
-            </span>
-          </div>
-
-          <div className="ml-20 text-right text-lg">423점</div>
-        </CardContent>
-      </Card>
-    </div>
+        <p className="text-right font-semibold">{score}점</p>
+      </CardContent>
+    </Card>
   );
 }
