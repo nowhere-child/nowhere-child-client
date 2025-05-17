@@ -27,7 +27,7 @@
 /* MoonofMercury 폰트 등록 */
 @font-face {
   font-family: "MoonofMercury";
-  src: url("../assets/font/HypotheticalmoonofMercury.ttf") format("truetype");
+  src: url("../assets/font/HypotheticalmoonofMercury.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -63,6 +63,13 @@ body {
 /* 폰트 유틸리티 클래스 추가 */
 .font-jihye {
   font-family: "Jihye", sans-serif;
+}
+
+.font-nightcore {
+  font-family: "Nightcore", sans-serif;
+}
+.font-moonofmercury {
+  font-family: "MoonofMercury", sans-serif;
 }
 
 :root {

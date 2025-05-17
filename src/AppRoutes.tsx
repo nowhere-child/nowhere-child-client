@@ -50,9 +50,9 @@ export default function AppRoutes() {
       <Route
         path="/result"
         element={
-          <ProtectedRoute>
-            <ResultPage />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <ResultPage />
+          // </ProtectedRoute>
         }
       />
       <Route

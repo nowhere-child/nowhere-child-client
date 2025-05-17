@@ -31,7 +31,7 @@ export default function ResultPage() {
     <div className="flex flex-col h-dvh bg-[#1A1A1A] text-white">
       <main className="flex-1 overflow-y-auto p-4 space-y-12">
         {/* 1) 메인 랭크 포스터 */}
-        <OverallRankPoster />
+        <OverallRankPoster myRankingData={myRankingData} />
 
         {/* 2) 상위 팀 카드 슬라이더 */}
         <section className="space-y-2">
