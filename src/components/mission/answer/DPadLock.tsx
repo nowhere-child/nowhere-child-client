@@ -1,22 +1,23 @@
 // src/components/mission/DPadLock.tsx
 import { cn } from "@/lib/utils";
-import { Circle } from "lucide-react";
+import { Circle, RefreshCcw, Triangle } from "lucide-react";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 
 export type Direction = "U" | "R" | "D" | "L";
 
 interface Props {
   solution: Direction[];
   maxAttempts?: number;
-  onSuccess: () => void;
+  onSuccess: (correctAnswer: string) => void; // 변경: string 인자 추가
   onFail?: (remain: number) => void;
-  setV?: (v: string) => void;
+  setV: (v: string) => void;
 }
 
 /* -------------------------------------- */
 export default function DPadLock({
   solution,
-  maxAttempts = 5,
+  maxAttempts = 999,
   onSuccess,
   setV,
   onFail,
@@ -29,8 +30,8 @@ export default function DPadLock({
 
   /* ───────── consts ───────── */
   const PAD = 160; // 패드 전체 영역
-  const ARM = 36; // 팔(가로·세로) 두께
-  const R = PAD / 2 - 40; // 핸들 최대 이동 반경
+  const ARM = 48; // 팔(가로·세로) 두께
+  const R = PAD / 2 - 30; // 핸들 최대 이동 반경
   const clamp = (v: number) => Math.max(-R, Math.min(R, v));
 
   /* ───────── helpers ───────── */
@@ -47,25 +48,33 @@ export default function DPadLock({
   };
 
   const addDir = (dir: Direction) => {
-    const next = [...trail, dir].slice(0, solution.length);
-    setTrail(next);
+    const nextTrail = [...trail, dir]; // 모든 입력을 trail에 누적
+    setTrail(nextTrail);
+    setV(nextTrail.join("")); // 모든 입력을 v에 반영
 
-    if (next.length < solution.length) return;
-
-    if (next.every((d, i) => d === solution[i])) {
-      console.log(next);
-      setV?.(next.join(""));
-      onSuccess();
-    } else {
-      attempts.current += 1;
-      setTrail([]);
-      navigator.vibrate?.(120);
-      onFail?.(Math.max(0, maxAttempts - attempts.current));
-    }
+    // setV 실행 후 onSuccess/onFail 호출을 보장 (setTimeout은 최소 지연을 의미)
+    setTimeout(() => {
+      if (nextTrail.length >= solution.length) {
+        const currentAttempt = nextTrail.slice(-solution.length); // 마지막 solution.length 만큼의 입력
+        if (currentAttempt.every((d, i) => d === solution[i])) {
+          onSuccess(currentAttempt.join("")); // 성공 시, 정답 부분만 전달
+        } else {
+          // 오답 처리
+          attempts.current += 1;
+          setTrail([]); // 오답 시 trail 초기화
+          setV(""); // v도 초기화
+          navigator.vibrate?.(120);
+          onFail?.(Math.max(0, maxAttempts - attempts.current));
+          toast.error("틀렸습니다. 다시 시도하세요.");
+        }
+      }
+      // solution 길이보다 짧으면 아무것도 하지 않음 (계속 입력 가능)
+    }, 0);
   };
 
   const resetAll = () => {
     setTrail([]);
+    setV(""); // v도 초기화
     attempts.current = 0;
     setHandlePos({ x: 0, y: 0 });
   };
@@ -122,7 +131,7 @@ export default function DPadLock({
             key={i}
             className={cn(
               "w-2 h-2 rounded-full",
-              i < trail.length ? "bg-primary" : "bg-zinc-400/40"
+              i < trail.length ? "bg-blue-500" : "bg-zinc-400"
             )}
           />
         ))}
@@ -143,14 +152,21 @@ export default function DPadLock({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {/* 가로 막대 */}
           <div
-            className="absolute bg-zinc-700/40 rounded-md"
+            className="absolute bg-zinc-700/40 rounded-md justify-center gap-20 items-center flex"
             style={{ width: PAD, height: ARM }}
-          />
+          >
+            <Triangle size={16} className=" rotate-270" />
+            <Triangle size={16} className=" rotate-90" />
+          </div>
           {/* 세로 막대 */}
           <div
-            className="absolute bg-zinc-700/40 rounded-md"
+            className="absolute bg-zinc-700/40 rounded-md justify-center gap-20 items-center flex flex-col"
             style={{ width: ARM, height: PAD }}
-          />
+          >
+            {" "}
+            <Triangle size={16} className="" />
+            <Triangle size={16} className="rotate-180" />
+          </div>
         </div>
 
         {/* 3) 중앙 핸들 */}
@@ -166,17 +182,14 @@ export default function DPadLock({
           }}
         >
           {/* 핸들 장식 (점 4개) */}
-          <Circle />
+          <Circle size={60} className=" fill-blue-500" />
         </div>
       </div>
 
       {/* 남은 시도 & 리셋 */}
       <div className="flex items-center gap-4 mt-1">
-        <p className="text-xs text-zinc-400">
-          남은 시도 {Math.max(0, maxAttempts - attempts.current)}
-        </p>
         <button onClick={resetAll} className="text-xs text-primary underline">
-          리셋
+          <RefreshCcw size={24} />
         </button>
       </div>
     </div>
