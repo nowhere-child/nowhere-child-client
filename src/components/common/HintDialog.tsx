@@ -1,6 +1,7 @@
 // src/components/mission/HintDialog.tsx
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useHint } from "@/hooks/useHint";
 import { cn } from "@/lib/utils"; // shadcn helper
 import { useMissionStore } from "@/store/missionStore";
 
@@ -10,19 +11,35 @@ interface Props {
 }
 
 export default function HintDialog({ children }: Props) {
-  const { currentStep, hintsUsed, useHint } = useMissionStore();
+  const { missionId, hints, usedHintCount, setHint } = useMissionStore();
+  const { mutateAsync: fetchHint } = useHint();
+  const hintOrderMap = ["FIRST", "SECOND", "THIRD"] as const;
 
   /** 이번 스텝에서 이미 사용한 힌트 개수 */
-  const used = hintsUsed[currentStep] ?? 0;
-  const maxPerStep = 3;
-  const remain = maxPerStep - used;
+  if (!missionId) return null;
+
+  const used = usedHintCount[missionId] ?? 0;
+  const remain = 3 - used;
+  const missionHints = hints[missionId] ?? [];
 
   /** 힌트 버튼 클릭 */
-  const handleGetHint = () => {
-    if (remain <= 0) return;
-    useHint();
-    // 실제 힌트 텍스트 노출 로직은 MissionRenderer 내부에서
-    // `hintsUsed[step]` 값을 보고 conditionally 렌더링하면 됩니다.
+  const handleGetHint = async () => {
+    if (!missionId || remain <= 0) return;
+
+    const nextIndex = used; // used: 0,1,2 → hintOrder: FIRST, SECOND, THIRD
+    const nextHintOrder = hintOrderMap[nextIndex];
+
+    if (missionHints.length >= used + 1) return;
+    try {
+      const data = await fetchHint({
+        missionId,
+        gameId: 1, // 🔁 필요 시 가져오기
+        hintOrder: nextHintOrder,
+      });
+      setHint(missionId, data.hint); // ✅ 힌트 저장
+    } catch (e) {
+      console.error("힌트 가져오기 실패", e);
+    }
   };
 
   /** 회색 점(●) 진행 표시용 */
@@ -98,6 +115,18 @@ export default function HintDialog({ children }: Props) {
               </Button>
             </div>
           </div>
+          {missionHints.length > 0 && (
+            <div className="mt-6 px-6 space-y-2">
+              {missionHints.map((hint, idx) => (
+                <div
+                  key={idx}
+                  className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-sm whitespace-pre-wrap"
+                >
+                  <span className="font-semibold">힌트 {idx + 1}:</span> {hint}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

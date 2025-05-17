@@ -10,9 +10,9 @@ export const RecordResponseSchema = z.object({
 });
 
 /* ------------------ 1. 팀 기록 조회 ------------------ */
-export const getTeamRecord = async (gameId: number, memberId: number) => {
+export const getTeamRecord = async (gameId: number) => {
   const { data } = await api.get("/records/team", {
-    params: { gameId, memberId },
+    params: { gameId },
   });
   return RecordResponseSchema.parse(data).data;
 };
@@ -24,9 +24,9 @@ export const getTeamRanking = async (gameId: number) => {
 };
 
 /* ------------------ 3. 개인 기록 조회 ------------------ */
-export const getPersonalRecord = async (gameId: number, memberId: number) => {
+export const getPersonalRecord = async (gameId: number) => {
   const { data } = await api.get("/records/personal", {
-    params: { gameId, memberId },
+    params: { gameId },
   });
   return RecordResponseSchema.parse(data).data;
 };

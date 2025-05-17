@@ -3,13 +3,14 @@ import { cn } from "@/lib/utils";
 import { Circle } from "lucide-react";
 import { useRef, useState } from "react";
 
-export type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
+export type Direction = "U" | "R" | "D" | "L";
 
 interface Props {
   solution: Direction[];
   maxAttempts?: number;
   onSuccess: () => void;
   onFail?: (remain: number) => void;
+  setV?: (v: string) => void;
 }
 
 /* -------------------------------------- */
@@ -17,6 +18,7 @@ export default function DPadLock({
   solution,
   maxAttempts = 5,
   onSuccess,
+  setV,
   onFail,
 }: Props) {
   /* ───────── state & refs ───────── */
@@ -37,11 +39,11 @@ export default function DPadLock({
     if (Math.abs(dx) < t && Math.abs(dy) < t) return null;
     return Math.abs(dx) > Math.abs(dy)
       ? dx > 0
-        ? "RIGHT"
-        : "LEFT"
+        ? "R"
+        : "L"
       : dy > 0
-        ? "DOWN"
-        : "UP";
+        ? "D"
+        : "U";
   };
 
   const addDir = (dir: Direction) => {
@@ -51,6 +53,8 @@ export default function DPadLock({
     if (next.length < solution.length) return;
 
     if (next.every((d, i) => d === solution[i])) {
+      console.log(next);
+      setV?.(next.join(""));
       onSuccess();
     } else {
       attempts.current += 1;
@@ -87,7 +91,7 @@ export default function DPadLock({
       return;
     }
 
-    if (dom === "LEFT" || dom === "RIGHT") {
+    if (dom === "L" || dom === "R") {
       setHandlePos({ x: clamp(dx), y: 0 }); // x축만 반영
     } else {
       setHandlePos({ x: 0, y: clamp(dy) }); // y축만 반영

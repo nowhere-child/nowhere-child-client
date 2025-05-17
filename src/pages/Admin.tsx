@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLogin } from "@/hooks/useMember";
 import { useUpdateRecord } from "@/hooks/useRecord";
 import { useIssueTeam } from "@/hooks/useTeam";
 import { useState } from "react";
@@ -18,8 +20,13 @@ export default function AdminPage() {
     authenticateCodeList: [-1],
   });
 
+  //
+
   const updateRecordMutation = useUpdateRecord();
   const createTeam = useIssueTeam();
+
+  const { mutateAsync: adminlogin } = useLogin();
+  const { login: authLogin } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,6 +141,25 @@ export default function AdminPage() {
         </Button>
         <div>{createdCode.authenticateCodeList.join(", ")}</div>
       </div>
+      <hr className="my-8" />
+      <Button
+        onClick={() => {
+          adminlogin({
+            name: "김도현",
+            phoneNumber: "010-2430-0005",
+            role: "ROLE_ADMIN",
+          })
+            .then((res) => {
+              console.log("로그인 성공", res);
+              authLogin(res.data.accessToken, res.data.refreshToken);
+            })
+            .catch((err) => {
+              console.error("로그인 실패", err);
+            });
+        }}
+      >
+        로그인
+      </Button>
     </div>
   );
 }

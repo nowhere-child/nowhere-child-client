@@ -19,7 +19,6 @@ export type HintResponse = z.infer<typeof HintResponseSchema>;
 export interface UseHintParams {
   gameId: number;
   missionId: number;
-  memberId: number;
   hintOrder: string; // e.g. "1", "2", "3"
 }
 

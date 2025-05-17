@@ -11,7 +11,7 @@ import MissionRenderer from "./MissionRenderer";
 export default function MissionEngine() {
   const { missionId, setMissionId } = useMissionStore();
   console.log("missionId", missionId);
-  const { data: recordData } = usePersonalRecord(1, 1);
+  const { data: recordData } = usePersonalRecord(1);
 
   /* ① 재접속 시 진행 상황 복원 ------------------------------ */
   useEffect(() => {

@@ -3,10 +3,10 @@ import * as RecordAPI from "@/api/record";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 /* ------------------ 1. 팀 기록 조회 ------------------ */
-export const useTeamRecord = (gameId: number, memberId: number) => {
+export const useTeamRecord = (gameId: number) => {
   return useQuery({
-    queryKey: ["record", "team", gameId, memberId],
-    queryFn: () => RecordAPI.getTeamRecord(gameId, memberId),
+    queryKey: ["record", "team", gameId],
+    queryFn: () => RecordAPI.getTeamRecord(gameId),
   });
 };
 
@@ -19,10 +19,10 @@ export const useTeamRanking = (gameId: number) => {
 };
 
 /* ------------------ 3. 개인 기록 ------------------ */
-export const usePersonalRecord = (gameId: number, memberId: number) => {
+export const usePersonalRecord = (gameId: number) => {
   return useQuery({
-    queryKey: ["record", "personal", gameId, memberId],
-    queryFn: () => RecordAPI.getPersonalRecord(gameId, memberId),
+    queryKey: ["record", "personal", gameId],
+    queryFn: () => RecordAPI.getPersonalRecord(gameId),
   });
 };
 
@@ -33,10 +33,10 @@ export const useUpdateRecord = () => {
     mutationFn: RecordAPI.updateRecord,
     onSuccess: (_, variables) => {
       qc.invalidateQueries({
-        queryKey: ["record", "team", variables.gameId, variables.memberId],
+        queryKey: ["record", "team", variables.gameId],
       });
       qc.invalidateQueries({
-        queryKey: ["record", "personal", variables.gameId, variables.memberId],
+        queryKey: ["record", "personal", variables.gameId],
       });
       qc.invalidateQueries({
         queryKey: ["record", "ranking", variables.gameId],

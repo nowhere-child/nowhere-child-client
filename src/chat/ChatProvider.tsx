@@ -27,7 +27,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   /* 전역 스토어 값 */
   const { nickname } = useMissionStore();
   const roomNumber = 1; // 예시
-  const memberId = 1;
   const gameId = 1;
 
   /* 상태 & refs */
@@ -39,13 +38,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   /* ========== 1. 과거 기록 ========== */
   const loadMore = useCallback(async () => {
     try {
-      const history = await ChatAPI.fetchHistory(memberId, gameId);
+      const history = await ChatAPI.fetchHistory(gameId);
       setMsgs(history); // 전체 갱신
     } catch (err) {
       console.error("[chat] history fail", err);
       toast.error("채팅 기록을 불러오지 못했습니다");
     }
-  }, [memberId, gameId]);
+  }, [gameId]);
 
   useEffect(() => {
     loadMore();
@@ -78,8 +77,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       if (data.sessionId && data.sessionId === lastSendId.current) return;
 
       const newMsg: ChatMessage = {
-        memberId: Number(data.memberId),
-        author: String(data.memberId),
+        author: String(data.memberName),
         content: data.msg,
         ts: Date.now(),
       };
@@ -101,7 +99,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     const payload: WSChatPayload = {
       msg: text,
       roomNumber: String(roomNumber),
-      memberId: String(memberId),
+      memberName: nickname,
       sessionId,
     };
 
@@ -112,8 +110,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     setMsgs((prev) => [
       ...prev,
       {
-        memberId,
-        author: nickname || String(memberId),
+        author: nickname || "익명",
         content: text,
         ts: Date.now(),
       },
