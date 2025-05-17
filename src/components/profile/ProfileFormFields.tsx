@@ -226,15 +226,41 @@ export const ProfileFormFields = ({ onDup }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FieldRow label="입학년도">
-            <FormControl>
-              <Input
-                {...field}
-                type="number"
-                inputMode="numeric"
-                placeholder="입학년도를 입력해주세요."
-                className={inputClass}
-              />
-            </FormControl>
+            <Select
+              value={field.value ? String(field.value) : ""}
+              onValueChange={(val) => field.onChange(Number(val))}
+            >
+              <SelectTrigger
+                className={`${triggerClass} data-[state=open]:border-[#FCFCFC]`}
+              >
+                <SelectValue placeholder="입학년도를 선택해주세요." />
+                <ChevronDown size={18} className="text-zinc-400 shrink-0" />
+              </SelectTrigger>
+
+              <SelectContent
+                position="popper"
+                align="center"
+                sideOffset={12}
+                style={{ width: "var(--radix-select-trigger-width)" }}
+                className="rounded-[16px] bg-white text-black shadow-lg"
+              >
+                <div className="max-h-60 rounded-[16px] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300">
+                  <SelectGroup className="py-2">
+                    {Array.from({ length: 26 }, (_, i) => 2025 - i).map(
+                      (year) => (
+                        <SelectItem
+                          key={year}
+                          value={String(year)}
+                          className="px-6 py-3 data-[state=checked]:bg-neutral-100 cursor-pointer"
+                        >
+                          {year}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectGroup>
+                </div>
+              </SelectContent>
+            </Select>
           </FieldRow>
         )}
       />
