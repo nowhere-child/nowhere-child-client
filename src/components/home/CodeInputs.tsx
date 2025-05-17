@@ -31,6 +31,7 @@ export const CodeInputs = ({
           onChange(e.target.value, i)
         }
         onKeyDown={(e) => onKey(e, i)}
+        inputMode="numeric"
         className="w-11 h-11 text-center rounded-[8px] bg-white/30 backdrop-blur-lg text-white border-none focus-visible:ring-1 font-semibold text-xl"
       />
     ))}
