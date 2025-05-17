@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { useMissionStore } from "@/store/missionStore";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ export function useEnterCode() {
 
   const navigate = useNavigate();
   const { mutateAsync: checkAuthCode } = useCheckAuthCode();
+  const { login } = useAuth();
   const isComplete = codes.every((c) => c.trim() !== "");
   const { setCode, setRole } = useMissionStore();
 
@@ -31,9 +33,13 @@ export function useEnterCode() {
     const { code, data } = await checkAuthCode(Number(codes.join("")));
     if (code === 200) {
       setCode(codes.join(""));
-      setRole(data.isLeader ? "ROLE_ADMIN" : "ROLE_USER");
-      // participated분기 추가
-      navigate("/profile");
+      if (data.participated === true) {
+        login(data.jwtResponse.accessToken, data.jwtResponse.refreshToken);
+        navigate("/mission");
+      } else {
+        setRole(data.isLeader ? "ROLE_ADMIN" : "ROLE_USER");
+        navigate("/profile");
+      }
     }
   };
 

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUpdateRecord } from "@/hooks/useRecord";
+import { useIssueTeam } from "@/hooks/useTeam";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -10,23 +11,31 @@ export default function AdminPage() {
   const [memberId, setMemberId] = useState("");
   const [missionOrder, setMissionOrder] = useState("");
 
+  // 코드생성
+  const [generationGameId, setGenerationGameId] = useState(0);
+  const [teamSize, setteamSize] = useState("");
+  const [createdCode, setCreatedCode] = useState({
+    authenticateCodeList: [-1],
+  });
+
   const updateRecordMutation = useUpdateRecord();
+  const createTeam = useIssueTeam();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const gameIdNum = parseInt(gameId, 10);
-    const memberIdNum = parseInt(memberId, 10);
     const missionOrderNum = parseInt(missionOrder, 10);
 
-    if (isNaN(gameIdNum) || isNaN(memberIdNum) || isNaN(missionOrderNum)) {
+    if (isNaN(gameIdNum) || isNaN(missionOrderNum)) {
       toast.error("모든 필드에 유효한 숫자를 입력해주세요.");
       return;
     }
 
+    // MARK: TODO : 유저 업데이트 memberID관련 수정(없어진것 처리)
+
     try {
       await updateRecordMutation.mutateAsync({
         gameId: gameIdNum,
-        memberId: memberIdNum,
         missionOrder: missionOrderNum,
       });
       toast.success("기록이 성공적으로 업데이트되었습니다.");
@@ -40,10 +49,20 @@ export default function AdminPage() {
     }
   };
 
+  // 코드 생성 핸들러 (추후 구현)
+  const handleGenerateCode = async () => {
+    const { data: createdCode } = await createTeam.mutateAsync({
+      gameId: generationGameId,
+      teamSize,
+    });
+    console.log("코드 생성:", createdCode);
+    setCreatedCode(createdCode);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">어드민 페이지 - 기록 업데이트</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-md mb-8">
         <div>
           <Label htmlFor="gameId">게임 ID</Label>
           <Input
@@ -81,6 +100,40 @@ export default function AdminPage() {
           {updateRecordMutation.isPending ? "업데이트 중..." : "기록 업데이트"}
         </Button>
       </form>
+
+      <hr className="my-8" />
+
+      <h2 className="text-xl font-bold mb-4">코드 생성</h2>
+      <div className="space-y-4 max-w-md">
+        <div>
+          <Label htmlFor="generationGameId">게임 ID (코드 생성용)</Label>
+          <Input
+            id="generationGameId"
+            type="number"
+            value={generationGameId}
+            onChange={(e) => {
+              const value = e.target.value;
+              // 빈 문자열일 경우 0으로 설정하거나, NaN이 되지 않도록 처리
+              setGenerationGameId(value === "" ? 0 : Number(value));
+            }}
+            placeholder="게임 ID를 입력하세요"
+          />
+        </div>
+        <div>
+          <Label htmlFor="teamSize">팀 규모</Label>
+          <Input
+            id="teamSize"
+            type="number"
+            value={teamSize}
+            onChange={(e) => setteamSize(e.target.value)}
+            placeholder="팀 규모를 입력하세요"
+          />
+        </div>
+        <Button variant="secondary" onClick={handleGenerateCode}>
+          코드생성
+        </Button>
+        <div>{createdCode.authenticateCodeList.join(", ")}</div>
+      </div>
     </div>
   );
 }

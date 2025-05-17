@@ -1,4 +1,5 @@
 import { updateRecord } from "@/api/record";
+import { useAuth } from "@/contexts/AuthContext";
 import { useMissionStore } from "@/store/missionStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,6 +32,7 @@ export function useProfileForm() {
   const navigate = useNavigate();
   const { code, role, setMissionId } = useMissionStore();
   const { mutateAsync: signUp } = useSignup();
+  const { login } = useAuth();
 
   const form = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
@@ -81,8 +83,12 @@ export function useProfileForm() {
       console.error("회원가입 실패", code);
       form.setError("teamName", { message: "회원가입에 실패했습니다." });
     } else {
+      login(submitData.accessToken, submitData.refreshToken);
       // 성공 시
-      await updateRecord({ memberId: 1, gameId: 1, missionOrder: 1 });
+      await updateRecord({
+        gameId: 1,
+        missionOrder: 1,
+      });
       setMissionId(1);
       console.log("회원가입 성공", submitData, code);
       navigate("/mission");
