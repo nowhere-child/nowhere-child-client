@@ -4,6 +4,7 @@ import { tokenStorage } from "../utils/tokenStorage";
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  isLoading: boolean; // isLoading 상태 추가
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
 }
@@ -14,11 +15,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // isLoading 초기값을 true로 설정
 
   // 초기화 시 토큰 존재 여부로 인증 상태 결정
   useEffect(() => {
     const token = tokenStorage.getAccessToken();
     setIsAuthenticated(!!token);
+    setIsLoading(false); // 토큰 확인 후 isLoading을 false로 설정
   }, []);
 
   const login = (accessToken: string, refreshToken: string) => {
@@ -32,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

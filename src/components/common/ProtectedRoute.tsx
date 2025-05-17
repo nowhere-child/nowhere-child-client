@@ -7,6 +7,11 @@ export default function ProtectedRoute({
 }: {
   children: JSX.Element;
 }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth(); // isLoading 상태 가져오기
+
+  if (isLoading) {
+    return <div>Loading...</div>; // 로딩 중일 때 로딩 표시
+  }
+
   return isAuthenticated ? children : <Navigate to="/" replace />;
 }
