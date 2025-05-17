@@ -7,14 +7,13 @@ export interface ChatMessage {
   /** epoch(ms) */
   ts: number;
   /** 숫자 ID – DB foreign key */
-  memberId: number;
 }
 
 /** WebSocket 으로 주고-받는 JSON 스펙 (서버 문서에 맞춰 조정) */
 export interface WSChatPayload {
   msg: string;
+  memberName: string;
   roomNumber: string;
-  memberId: string; // 서버가 문자열로 요구
   sessionId: string;
   type?: string; // 필요 없으면 제거
 }

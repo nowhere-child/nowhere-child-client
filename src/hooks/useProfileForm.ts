@@ -1,4 +1,3 @@
-import { updateRecord } from "@/api/record";
 import { useAuth } from "@/contexts/AuthContext";
 import { useMissionStore } from "@/store/missionStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,10 +84,10 @@ export function useProfileForm() {
     } else {
       login(submitData.accessToken, submitData.refreshToken);
       // 성공 시
-      await updateRecord({
-        gameId: 1,
-        missionOrder: 1,
-      });
+      // await updateRecord({
+      //   gameId: 1,
+      //   missionOrder: 1,
+      // });
       setMissionId(1);
       console.log("회원가입 성공", submitData, code);
       navigate("/mission");

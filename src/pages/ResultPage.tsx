@@ -4,6 +4,7 @@
 import OverallRankPoster from "@/components/result/OverallRankPoster";
 import RankingBoard, { RankItem } from "@/components/result/RankingBoard";
 import RankingCard from "@/components/result/RankingCard";
+import { useTeamRanking, useTeamRecord } from "@/hooks/useRecord";
 
 /* ---------------- 임시 목업 데이터 ---------------- */
 const topTeams = [
@@ -22,6 +23,10 @@ const myList: RankItem[] = Array.from({ length: 10 }, (_, i) => ({
 /* ------------------------------------------------ */
 
 export default function ResultPage() {
+  const { data: rankingData } = useTeamRanking(1);
+  const { data: myRankingData } = useTeamRecord(1);
+  console.log(rankingData);
+  console.log(myRankingData);
   return (
     <div className="flex flex-col h-dvh bg-[#1A1A1A] text-white">
       <main className="flex-1 overflow-y-auto p-4 space-y-12">

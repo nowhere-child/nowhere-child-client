@@ -7,10 +7,12 @@ const AuthResponseSchema = z.object({
   code: z.number(),
   message: z.string(),
   data: z.object({
-    jwtResponse: z.object({
-      accessToken: z.string(),
-      refreshToken: z.string(),
-    }),
+    jwtResponse: z
+      .object({
+        accessToken: z.string(),
+        refreshToken: z.string(),
+      })
+      .optional(),
     isLeader: z.boolean().optional(),
     participated: z.boolean().optional(),
   }),
@@ -22,10 +24,16 @@ export const checkAuthCode = async (authenticateCode: number) => {
   });
   const parsedData = AuthResponseSchema.parse(data);
   // 토큰 저장
-  tokenStorage.setTokens(
-    parsedData.data.jwtResponse.accessToken,
-    parsedData.data.jwtResponse.refreshToken
-  );
+  if (parsedData.data.jwtResponse) {
+    tokenStorage.setTokens(
+      parsedData.data.jwtResponse.accessToken,
+      parsedData.data.jwtResponse.refreshToken
+    );
+  }
+  // tokenStorage.setTokens(
+  //   parsedData.data.jwtResponse.accessToken,
+  //   parsedData.data.jwtResponse.refreshToken
+  // );
 
   return parsedData;
 };
@@ -37,12 +45,22 @@ export type LoginParams = {
 };
 
 export const login = async (params: LoginParams) => {
-  const { data } = await api.get("/members/login", {
-    params,
-  });
+  const { data } = await api.post("/members/login", params);
   console.log("로그인 응답", data);
   return data; // 단순 응답
 };
+// export const login = async (params: LoginParams) => {
+//   const { data } = await api.request({
+//     url: "/members/login",
+//     method: "GET",
+//     data: params, // ✅ body에 데이터 실음
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+
+//   return data;
+// };
 
 export type SignupParams = {
   name: string;

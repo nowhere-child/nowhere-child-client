@@ -6,7 +6,8 @@ interface MissionState {
   nickname: string;
   missionId: number | null; // 현재 미션 ID
   totalMissions: number;
-  hintsUsed: Record<number, number>;
+  usedHintCount: Record<number, number>; // missionId → count
+  hints: Record<number, string[]>; // missionId → hints array
   startedAt: number | null;
   role: "ROLE_USER" | "ROLE_ADMIN";
 
@@ -15,6 +16,7 @@ interface MissionState {
   setMission: (missionId: number) => void;
   goNextMission: (missionId: number) => void;
   useHint: () => void;
+  setHint: (missionId: number, hint: string) => void;
   hydrate: (data: Partial<MissionState>) => void;
   reset: () => void;
   setRole: (role: "ROLE_USER" | "ROLE_ADMIN") => void;
@@ -25,7 +27,7 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   code: "",
   nickname: "",
   missionId: null,
-  totalMissions: 8,
+  totalMissions: 9,
   hintsUsed: {},
   startedAt: null,
   role: "ROLE_USER",
@@ -34,16 +36,6 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   setNickname: (nickname) => set({ nickname }),
   setMission: (missionId) => set({ missionId }),
   goNextMission: (nextId) => set({ missionId: nextId }),
-  useHint: () => {
-    const id = get().missionId;
-    if (id == null) return;
-    const prev = get().hintsUsed[id] || 0;
-    if (prev < 3) {
-      set((state) => ({
-        hintsUsed: { ...state.hintsUsed, [id]: prev + 1 },
-      }));
-    }
-  },
   setRole: (role) => set({ role }),
   setMissionId: (missionId) => set({ missionId }),
   hydrate: (data) => set((state) => ({ ...state, ...data })),
@@ -52,7 +44,35 @@ export const useMissionStore = create<MissionState>((set, get) => ({
       code: "",
       nickname: "",
       missionId: null,
-      hintsUsed: {},
       startedAt: null,
     }),
+  usedHintCount: {},
+  hints: {},
+  useHint: () => {
+    const missionId = get().missionId;
+    if (missionId == null) return;
+
+    const used = get().usedHintCount[missionId] ?? 0;
+    if (used >= 3) return;
+
+    const hintOrder = (used + 1).toString();
+
+    // ✅ useHint 내부에서 직접 API 호출은 하지 말고 HintDialog에서 trigger
+  },
+  setHint: (missionId, hint) => {
+    set((state) => {
+      const prev = state.hints[missionId] ?? [];
+      const nextHints = [...prev, hint];
+      return {
+        hints: {
+          ...state.hints,
+          [missionId]: nextHints,
+        },
+        usedHintCount: {
+          ...state.usedHintCount,
+          [missionId]: nextHints.length,
+        },
+      };
+    });
+  },
 }));

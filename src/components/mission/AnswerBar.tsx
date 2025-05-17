@@ -1,9 +1,12 @@
 // src/components/mission/AnswerBar.tsx
-import { submitAnswer } from "@/api/answer";
+import { useSubmitAnswer } from "@/hooks/useAnswer";
 import { useMissionStore } from "@/store/missionStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import AnswerInput from "./answer/AnswerInput";
+import DPadLock from "./answer/DPadLock";
 import GPS from "./answer/GPS";
 import SingleButton from "./answer/SingleButton";
 
@@ -22,36 +25,39 @@ export default function AnswerBar({ config }: Props) {
   const [v, setV] = useState("");
 
   /* ① 성공 기록 업로드 */
-  const { mutateAsync: finishMission } = useMutation({
-    mutationFn: () =>
-      submitAnswer({
-        memberId: 1,
-        gameId: 1,
-        missionOrder: missionId!,
-        language: "KO",
-        answer: v,
-      }),
-  });
+  const { mutateAsync: finishMission } = useSubmitAnswer();
 
   const { missionId, setMissionId } = useMissionStore();
   const qc = useQueryClient();
+  const navigate = useNavigate();
 
   /* ② 정답 성공 시 */
   const handleNext = async () => {
-    const res = await finishMission(); // AnswerBar로 넘김
+    if (missionId === 9) {
+      navigate("/result");
+    }
+    const res = await finishMission({
+      gameId: 1,
+      missionOrder: missionId ?? 0,
+      answer: v,
+      language: "KO",
+    }); // AnswerBar로 넘김
     setV("");
     console.log("res", res);
-
-    const next = (missionId ?? 0) + 1;
-    setMissionId(next); // store 갱신 → MissionEngine re-fetch
-    qc.invalidateQueries({
-      // 캐시 갱신
-      queryKey: ["mission", next],
-    });
-    qc.invalidateQueries({
-      queryKey: ["answer", next],
-    });
-    window.scrollTo(0, 0);
+    if (res.correct === true) {
+      const next = (missionId ?? 0) + 1;
+      setMissionId(next); // store 갱신 → MissionEngine re-fetch
+      qc.invalidateQueries({
+        // 캐시 갱신
+        queryKey: ["mission", next],
+      });
+      qc.invalidateQueries({
+        queryKey: ["answer", next],
+      });
+      window.scrollTo(0, 0);
+    } else {
+      toast.error("정답이 아닙니다.");
+    }
   };
 
   switch (config.answerBlockType) {
@@ -78,6 +84,16 @@ export default function AnswerBar({ config }: Props) {
       return (
         <div className="px-5 pb-6 safe-bottom">
           <GPS onSuccess={handleNext} config={config} setV={setV} />
+        </div>
+      );
+    case "DIRECTION_LOCK":
+      return (
+        <div className="px-5 pb-6 safe-bottom">
+          <DPadLock
+            onSuccess={handleNext}
+            setV={setV}
+            solution={["U", "D", "L", "R", "U"]}
+          />
         </div>
       );
 

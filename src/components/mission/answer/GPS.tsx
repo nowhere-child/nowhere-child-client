@@ -91,9 +91,9 @@ function GPS({
   const [lastUpdate, setLastUpdate] = useState<number>(0);
 
   const handleGPS = () => {
-    setV(config.answer!);
     onSuccess();
   };
+  setV(config.answer!);
 
   // 위치 감시 시작
   const startWatching = () => {
@@ -196,7 +196,7 @@ function GPS({
         // disabled={!isValid}
         className={`w-full py-4 rounded-[20px] text-lg mt-4 ${
           isValid
-            ? "bg-primary text-white"
+            ? "bg-blue-400 text-white"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
         }`}
       >
