@@ -1,0 +1,17 @@
+/* src/styles/fullpage.css */
+html,
+body {
+  height: 100%; /* iOS 에서 필수 */
+  overscroll-behavior: contain; /* 고무줄 방지 */
+}
+
+.snap-container {
+  height: 100vh; /* 화면 1 장 */
+  overflow-y: scroll; /* 세로 스크롤 허용  */
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch; /* 관성 스크롤 유지 */
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
