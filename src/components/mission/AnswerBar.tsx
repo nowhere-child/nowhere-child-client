@@ -23,6 +23,7 @@ interface Props {
 
 export default function AnswerBar({ config }: Props) {
   const [v, setV] = useState("");
+  console.log("v", v);
 
   /* ① 성공 기록 업로드 */
   const { mutateAsync: finishMission } = useSubmitAnswer();
@@ -32,18 +33,24 @@ export default function AnswerBar({ config }: Props) {
   const navigate = useNavigate();
 
   /* ② 정답 성공 시 */
-  const handleNext = async () => {
-    if (missionId === 9) {
-      navigate("/result");
+  const handleNext = async (submittedAnswer?: string) => {
+    const answerToSubmit = submittedAnswer ?? v;
+    if (!answerToSubmit) {
+      toast.error("정답을 입력해주세요.");
+      return;
     }
+
     const res = await finishMission({
       gameId: 1,
       missionOrder: missionId ?? 0,
-      answer: v,
+      answer: answerToSubmit,
       language: "KO",
-    }); // AnswerBar로 넘김
+    });
     setV("");
-    console.log("res", res);
+    if (missionId === 9) {
+      navigate("/result");
+      return;
+    }
     if (res.correct === true) {
       const next = (missionId ?? 0) + 1;
       setMissionId(next); // store 갱신 → MissionEngine re-fetch

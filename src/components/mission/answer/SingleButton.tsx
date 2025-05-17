@@ -1,12 +1,11 @@
 interface SingleButtonProps {
-  handleNext: () => void;
+  handleNext: (v?: string) => void;
   setV: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function SingleButton({ handleNext, setV }: SingleButtonProps) {
+function SingleButton({ handleNext }: SingleButtonProps) {
   const handleClick = () => {
-    setV("OK");
-    handleNext();
+    handleNext("OK");
   };
   return (
     <div className="px-5 pb-6 safe-bottom">
