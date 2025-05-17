@@ -1,22 +1,33 @@
+import { tokenStorage } from "@/utils/tokenStorage";
 import { z } from "zod";
 import { api } from "./client";
 
 // src/api/member.ts
+const AuthResponseSchema = z.object({
+  code: z.number(),
+  message: z.string(),
+  data: z.object({
+    jwtResponse: z.object({
+      accessToken: z.string(),
+      refreshToken: z.string(),
+    }),
+    isLeader: z.boolean().optional(),
+    participated: z.boolean().optional(),
+  }),
+});
+
 export const checkAuthCode = async (authenticateCode: number) => {
   const { data } = await api.get("/members", {
     params: { authenticateCode },
   });
-  return z
-    .object({
-      code: z.literal(200),
-      message: z.string(),
-      data: z.object({
-        isLeader: z.boolean(),
-        memberId: z.number().nullable(),
-        participated: z.boolean(),
-      }),
-    })
-    .parse(data);
+  const parsedData = AuthResponseSchema.parse(data);
+  // 토큰 저장
+  tokenStorage.setTokens(
+    parsedData.data.jwtResponse.accessToken,
+    parsedData.data.jwtResponse.refreshToken
+  );
+
+  return parsedData;
 };
 
 export type LoginParams = {
@@ -29,6 +40,7 @@ export const login = async (params: LoginParams) => {
   const { data } = await api.get("/members/login", {
     params,
   });
+  console.log("로그인 응답", data);
   return data; // 단순 응답
 };
 
@@ -47,10 +59,20 @@ export type SignupParams = {
 export const SignUpResponseSchema = z.object({
   code: z.number(),
   message: z.string(),
-  data: z.record(z.never()).optional().nullable(),
+  data: z.object({
+    accessToken: z.string(),
+    refreshToken: z.string(),
+  }),
 });
 
 export const signup = async (body: SignupParams) => {
   const { data } = await api.post("/members/sign-up", body);
-  return SignUpResponseSchema.parse(data);
+  const parsedData = SignUpResponseSchema.parse(data);
+  // 토큰 저장
+  tokenStorage.setTokens(
+    parsedData.data.accessToken,
+    parsedData.data.refreshToken
+  );
+
+  return parsedData;
 };

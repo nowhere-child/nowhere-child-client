@@ -34,7 +34,6 @@ export const getPersonalRecord = async (gameId: number, memberId: number) => {
 /* ------------------ 4. 기록 업데이트 ------------------ */
 export const updateRecord = async (payload: {
   gameId: number;
-  memberId: number;
   missionOrder: number;
 }) => {
   const { data } = await api.post("/records/update", payload);

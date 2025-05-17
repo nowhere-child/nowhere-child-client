@@ -29,7 +29,6 @@ export const fetchAnswer = async (params: {
 
 export const submitAnswer = async (params: {
   gameId: number;
-  memberId: number;
   missionOrder: number;
   language: string;
   answer: string;
