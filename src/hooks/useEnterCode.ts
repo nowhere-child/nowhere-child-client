@@ -1,6 +1,8 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { useMissionStore } from "@/store/missionStore";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCheckAuthCode } from "./useMember";
 
 export function useEnterCode() {
   const [codes, setCodes] = useState<string[]>(Array(6).fill(""));
@@ -8,8 +10,10 @@ export function useEnterCode() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
 
   const navigate = useNavigate();
-  const { setCode } = useMissionStore();
+  const { mutateAsync: checkAuthCode } = useCheckAuthCode();
+  const { login } = useAuth();
   const isComplete = codes.every((c) => c.trim() !== "");
+  const { setCode, setRole, setLeader } = useMissionStore();
 
   const change = (v: string, i: number) => {
     if (v.length > 1) return;
@@ -24,10 +28,20 @@ export function useEnterCode() {
       inputRefs.current[i - 1]?.focus();
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!isComplete) return;
-    setCode(codes.join(""));
-    navigate("/profile");
+    const { code, data } = await checkAuthCode(Number(codes.join("")));
+    if (code === 200) {
+      setCode(codes.join(""));
+      if (data.participated === true && data.jwtResponse) {
+        login(data.jwtResponse.accessToken, data.jwtResponse.refreshToken);
+        navigate("/mission");
+      } else {
+        if (data.isLeader) setLeader(data.isLeader);
+        setRole("ROLE_USER");
+        navigate("/profile");
+      }
+    }
   };
 
   return {

@@ -1,14 +1,60 @@
-import { ProfileForm } from "@/hooks/useProfileForm";
+// src/api/client.ts
+import { tokenStorage } from "@/utils/tokenStorage";
+import axios, { AxiosError } from "axios";
 
-/** 팀명 중복 확인 – 400 ms 딜레이 후 임의 로직 */
-export async function checkTeamName(name: string): Promise<boolean> {
-  await new Promise((r) => setTimeout(r, 400));
-  // 예: 'admin', 'test' 는 중복 처리
-  return !["ADMIN", "TEST"].includes(name.toUpperCase());
-}
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? "/api",
+  // withCredentials: false,
+  timeout: 10_000,
+});
 
-/** 프로필 제출 – 600 ms 후 콘솔 출력 */
-export async function submitProfile(data: ProfileForm): Promise<void> {
-  await new Promise((r) => setTimeout(r, 600));
-  console.log("✔️ submitted profile", data);
-}
+// 요청 인터셉터: 모든 요청에 인증 헤더 추가
+api.interceptors.request.use(
+  (config) => {
+    const token = tokenStorage.getAccessToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// 응답 인터셉터: 토큰 만료 처리
+api.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+
+    // 토큰 만료 (401) 오류 && 아직 재시도하지 않은 경우
+    if (
+      error.response?.status === 401 &&
+      !originalRequest?.headers["X-Retry"]
+    ) {
+      try {
+        // 리프레시 토큰으로 새 액세스 토큰 발급 요청
+        const refreshToken = tokenStorage.getRefreshToken();
+        const { data } = await axios.post("/members/refresh", { refreshToken });
+
+        // 새 토큰 저장
+        tokenStorage.setTokens(
+          data.accessToken,
+          data.refreshToken || refreshToken
+        );
+
+        // 원래 요청 재시도
+        if (originalRequest) {
+          originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+          originalRequest.headers["X-Retry"] = "true";
+          return axios(originalRequest);
+        }
+      } catch (refreshError) {
+        // 리프레시 토큰도 만료된 경우 로그아웃 처리
+        tokenStorage.clearTokens();
+        window.location.href = "/";
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  }
+);

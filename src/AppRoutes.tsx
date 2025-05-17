@@ -1,20 +1,24 @@
+import ProtectedRoute from "@/components/common/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 import Home from "@/pages/Home";
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Admin from "./pages/Admin";
 import MissionPage from "./pages/MissionPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResultPage from "./pages/ResultPage";
+
 export default function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
   useEffect(() => {
     const updateVH = () => {
-      // window.visualViewport.height 가 키보드 오픈/클로즈 시점을 정확히 반영
       const vh = window.visualViewport?.height ?? window.innerHeight;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
     updateVH();
     window.visualViewport?.addEventListener("resize", updateVH);
-    // iOS Safari에서는 visualViewport 지원이 없으면 window.resize 로 대체
     window.addEventListener("resize", updateVH);
 
     return () => {
@@ -22,12 +26,44 @@ export default function AppRoutes() {
       window.removeEventListener("resize", updateVH);
     };
   }, []);
+
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      {/* 입장 코드 페이지 */}
+      <Route
+        path="/"
+        element={
+          isAuthenticated ? <Navigate to="/mission" replace /> : <Home />
+        }
+      />
+
+      {/* 인증 필요한 라우트들 */}
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/mission" element={<MissionPage />} />
-      <Route path="/result" element={<ResultPage />} />
+      <Route
+        path="/mission"
+        element={
+          <ProtectedRoute>
+            <MissionPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/result"
+        element={
+          <ProtectedRoute>
+            <ResultPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<div>404</div>} />
     </Routes>
   );

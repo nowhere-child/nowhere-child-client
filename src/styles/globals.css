@@ -2,21 +2,98 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-:root {
-  /* 초기값 폴백: 100vh */
-  --vh: 100vh;
+/* src/styles/globals.css */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* jihye 폰트 등록 */
+@font-face {
+  font-family: "Jihye";
+  src: url("../assets/font/jihye.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
-html,
-body,
-#root,
-.app {
+
+/* Nightcore 폰트 등록 */
+@font-face {
+  font-family: "Nightcore";
+  src: url("../assets/font/NightcoreDemo.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* MoonofMercury 폰트 등록 */
+@font-face {
+  font-family: "MoonofMercury";
+  src: url("../assets/font/HypotheticalmoonofMercury.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --vh: 100vh; /* iOS 100 vh 보정 */
+}
+
+/* iOS에서 전체 페이지에 적용할 스타일 */
+html {
+  position: fixed; /* 가로 스크롤 방지에 도움 */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
   height: calc(var(--vh));
   margin: 0;
   padding: 0;
-  overscroll-behavior: none; /* 바운스 스크롤 억제 */
+
+  /* 가로·대각선 바운스 차단 */
+  overflow-x: hidden;
+  overscroll-behavior: none; /* rubber‑band 방지 */
 }
 
-/* ✅ 바르게 적용하려면 직접 색상 변수로 대체 필요 */
-/* body {
-  font-family: sans-serif;
-} */
+/* 루트 컨테이너 */
+#root,
+.app {
+  height: 100%; /* 이미 위에서 vh 적용했으므로 100% */
+}
+
+/* 폰트 유틸리티 클래스 추가 */
+.font-jihye {
+  font-family: "Jihye", sans-serif;
+}
+
+.font-nightcore {
+  font-family: "Nightcore", sans-serif;
+}
+.font-moonofmercury {
+  font-family: "MoonofMercury", sans-serif;
+}
+
+:root {
+  --vh: 100vh; /* iOS 100 vh 보정 */
+}
+
+@layer utilities {
+  .font-hand {
+    font-family: "Gochi Hand", cursive;
+  }
+
+  @keyframes slideUpFadeIn {
+    0% {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* 실제 애니메이션 유틸 */
+  .animate-slideUpFadeIn {
+    animation: slideUpFadeIn 0.4s ease-out both;
+  }
+}

@@ -3,6 +3,7 @@ import { FormControl, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@/components/ui/select";
 import { collegeList } from "@/constants/collegeList";
+import { useMissionStore } from "@/store/missionStore";
 import {
   SelectContent,
   SelectGroup,
@@ -30,6 +31,7 @@ h-[46px] rounded-[12px] px-[14px] bg-transparent border w-full
 
 export const ProfileFormFields = ({ onDup }: Props) => {
   const form = useFormContext();
+  const { isLeader } = useMissionStore();
 
   /** 현재 선택된 단과 */
   const selectedCollege = form.watch("college") || "";
@@ -72,36 +74,38 @@ export const ProfileFormFields = ({ onDup }: Props) => {
   return (
     <>
       {/* 팀 명 + 중복 확인 */}
-      <FormField
-        name="teamName"
-        control={form.control}
-        render={({ field }) => (
-          <FieldRow label="팀 명">
-            <div className="flex gap-2 items-center">
-              <FormControl>
-                <Input {...field} placeholder="Text" className={inputClass} />
-              </FormControl>
-              <Button
-                type="button"
-                size="sm"
-                disabled={
-                  String(field.value).length < 2 ||
-                  String(field.value).length > 13
-                }
-                onClick={onDup}
-                className="h-8 rounded-[12px] px-2 py-[6px] bg-[#3182F6] text-xs font-medium"
-              >
-                중복 확인
-              </Button>
-            </div>
+      {isLeader && (
+        <FormField
+          name="teamName"
+          control={form.control}
+          render={({ field }) => (
+            <FieldRow label="팀 명">
+              <div className="flex gap-2 items-center">
+                <FormControl>
+                  <Input {...field} placeholder="Text" className={inputClass} />
+                </FormControl>
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={
+                    String(field.value).length < 2 ||
+                    String(field.value).length > 13
+                  }
+                  onClick={onDup}
+                  className="h-8 rounded-[12px] px-2 py-[6px] bg-[#3182F6] text-xs font-medium"
+                >
+                  중복 확인
+                </Button>
+              </div>
 
-            {/* 헬퍼 + 메시지 */}
-            <p className="mt-2 text-[11px] text-neutral-400 leading-none">
-              2~13자 이하 입력
-            </p>
-          </FieldRow>
-        )}
-      />
+              {/* 헬퍼 + 메시지 */}
+              <p className="mt-2 text-[11px] text-neutral-400 leading-none">
+                2~13자 이하 입력
+              </p>
+            </FieldRow>
+          )}
+        />
+      )}
       {/* 이름 */}
       <FormField
         name="name"
@@ -112,6 +116,23 @@ export const ProfileFormFields = ({ onDup }: Props) => {
               <Input
                 {...field}
                 placeholder="이름을 입력해주세요."
+                className={inputClass}
+              />
+            </FormControl>
+          </FieldRow>
+        )}
+      />
+      {/* 전화번호 */}
+      <FormField
+        name="phoneNumber"
+        control={form.control}
+        render={({ field }) => (
+          <FieldRow label="전화번호">
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="숫자만 적어주세요"
+                inputMode="numeric"
                 className={inputClass}
               />
             </FormControl>
@@ -205,19 +226,45 @@ export const ProfileFormFields = ({ onDup }: Props) => {
       />
       {/* 입학년도 */}
       <FormField
-        name="year"
+        name="yearOfAdmission"
         control={form.control}
         render={({ field }) => (
           <FieldRow label="입학년도">
-            <FormControl>
-              <Input
-                {...field}
-                type="number"
-                inputMode="numeric"
-                placeholder="입학년도를 입력해주세요."
-                className={inputClass}
-              />
-            </FormControl>
+            <Select
+              value={field.value ? String(field.value) : ""}
+              onValueChange={(val) => field.onChange(Number(val))}
+            >
+              <SelectTrigger
+                className={`${triggerClass} data-[state=open]:border-[#FCFCFC]`}
+              >
+                <SelectValue placeholder="입학년도를 선택해주세요." />
+                <ChevronDown size={18} className="text-zinc-400 shrink-0" />
+              </SelectTrigger>
+
+              <SelectContent
+                position="popper"
+                align="center"
+                sideOffset={12}
+                style={{ width: "var(--radix-select-trigger-width)" }}
+                className="rounded-[16px] bg-white text-black shadow-lg"
+              >
+                <div className="max-h-60 rounded-[16px] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300">
+                  <SelectGroup className="py-2">
+                    {Array.from({ length: 26 }, (_, i) => 2025 - i).map(
+                      (year) => (
+                        <SelectItem
+                          key={year}
+                          value={String(year)}
+                          className="px-6 py-3 data-[state=checked]:bg-neutral-100 cursor-pointer"
+                        >
+                          {year}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectGroup>
+                </div>
+              </SelectContent>
+            </Select>
           </FieldRow>
         )}
       />
