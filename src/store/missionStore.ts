@@ -10,6 +10,7 @@ interface MissionState {
   hints: Record<number, string[]>; // missionId → hints array
   startedAt: number | null;
   role: "ROLE_USER" | "ROLE_ADMIN";
+  isLeader: boolean;
 
   setCode: (code: string) => void;
   setNickname: (name: string) => void;
@@ -21,6 +22,7 @@ interface MissionState {
   reset: () => void;
   setRole: (role: "ROLE_USER" | "ROLE_ADMIN") => void;
   setMissionId: (id: number) => void;
+  setLeader: (isLeader: boolean) => void;
 }
 
 export const useMissionStore = create<MissionState>((set, get) => ({
@@ -31,7 +33,9 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   hintsUsed: {},
   startedAt: null,
   role: "ROLE_USER",
+  isLeader: false,
 
+  setLeader: (isLeader) => set({ isLeader }),
   setCode: (code) => set({ code }),
   setNickname: (nickname) => set({ nickname }),
   setMission: (missionId) => set({ missionId }),

@@ -3,6 +3,7 @@ import { FormControl, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@/components/ui/select";
 import { collegeList } from "@/constants/collegeList";
+import { useMissionStore } from "@/store/missionStore";
 import {
   SelectContent,
   SelectGroup,
@@ -30,6 +31,7 @@ h-[46px] rounded-[12px] px-[14px] bg-transparent border w-full
 
 export const ProfileFormFields = ({ onDup }: Props) => {
   const form = useFormContext();
+  const { isLeader } = useMissionStore();
 
   /** 현재 선택된 단과 */
   const selectedCollege = form.watch("college") || "";
@@ -72,36 +74,38 @@ export const ProfileFormFields = ({ onDup }: Props) => {
   return (
     <>
       {/* 팀 명 + 중복 확인 */}
-      <FormField
-        name="teamName"
-        control={form.control}
-        render={({ field }) => (
-          <FieldRow label="팀 명">
-            <div className="flex gap-2 items-center">
-              <FormControl>
-                <Input {...field} placeholder="Text" className={inputClass} />
-              </FormControl>
-              <Button
-                type="button"
-                size="sm"
-                disabled={
-                  String(field.value).length < 2 ||
-                  String(field.value).length > 13
-                }
-                onClick={onDup}
-                className="h-8 rounded-[12px] px-2 py-[6px] bg-[#3182F6] text-xs font-medium"
-              >
-                중복 확인
-              </Button>
-            </div>
+      {isLeader && (
+        <FormField
+          name="teamName"
+          control={form.control}
+          render={({ field }) => (
+            <FieldRow label="팀 명">
+              <div className="flex gap-2 items-center">
+                <FormControl>
+                  <Input {...field} placeholder="Text" className={inputClass} />
+                </FormControl>
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={
+                    String(field.value).length < 2 ||
+                    String(field.value).length > 13
+                  }
+                  onClick={onDup}
+                  className="h-8 rounded-[12px] px-2 py-[6px] bg-[#3182F6] text-xs font-medium"
+                >
+                  중복 확인
+                </Button>
+              </div>
 
-            {/* 헬퍼 + 메시지 */}
-            <p className="mt-2 text-[11px] text-neutral-400 leading-none">
-              2~13자 이하 입력
-            </p>
-          </FieldRow>
-        )}
-      />
+              {/* 헬퍼 + 메시지 */}
+              <p className="mt-2 text-[11px] text-neutral-400 leading-none">
+                2~13자 이하 입력
+              </p>
+            </FieldRow>
+          )}
+        />
+      )}
       {/* 이름 */}
       <FormField
         name="name"
