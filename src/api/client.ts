@@ -34,7 +34,7 @@ api.interceptors.response.use(
       try {
         // 리프레시 토큰으로 새 액세스 토큰 발급 요청
         const refreshToken = tokenStorage.getRefreshToken();
-        const { data } = await axios.post("/auth/refresh", { refreshToken });
+        const { data } = await axios.post("/members/refresh", { refreshToken });
 
         // 새 토큰 저장
         tokenStorage.setTokens(
@@ -51,7 +51,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // 리프레시 토큰도 만료된 경우 로그아웃 처리
         tokenStorage.clearTokens();
-        window.location.href = "/login";
+        window.location.href = "/";
         return Promise.reject(refreshError);
       }
     }
