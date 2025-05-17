@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 
 /** 팀 이름 중복 확인 */
 export const useCheckTeamName = (teamName: string) => {
-  console.log("팀명 중복 확인", teamName);
   return useMutation({
     mutationFn: () => TeamAPI.checkTeamName(teamName),
   });
