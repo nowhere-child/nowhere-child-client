@@ -13,7 +13,9 @@ const EnterCodePage = () => {
       {/* 배경 이미지 영역 */}
       <div className="flex flex-col flex-1 bg-[url('../assets/bg-2x.png')] bg-cover bg-center">
         <div className="flex flex-col items-center justify-between flex-1 px-4 pt-10">
-          <h1 className="text-3xl font-bold text-white mb-6">Night Skull</h1>
+          <h1 className="text-3xl font-bold text-white mb-6 font-nightcore">
+            Night Skull
+          </h1>
 
           <div>
             <StatusMessage done={hook.isComplete} />
