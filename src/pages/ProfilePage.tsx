@@ -9,7 +9,7 @@ const ProfilePage = () => {
   const { form, checkDuplicate, onSubmit } = useProfileForm();
 
   return (
-    <div className="flex flex-col h-screen-vh bg-[#1A1A1A] text-gray-50">
+    <div className="flex flex-col bg-[#1A1A1A] text-gray-50">
       <div className="pb-6 pt-5 pl-5">
         <ChevronLeft size={22} />
       </div>
