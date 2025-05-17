@@ -81,9 +81,9 @@ function GPS({
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
     null
   );
-  const [accuracy, setAccuracy] = useState<number | null>(null);
-  const [timestamp, setTimestamp] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [accuracy, setAccuracy] = useState<number | null>(null);
+  // const [timestamp, setTimestamp] = useState<number | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const { isValid, gpsRange } = useLocationValidation(config, location);
   console.log("gpsRange", gpsRange);
 
@@ -98,7 +98,8 @@ function GPS({
   // 위치 감시 시작
   const startWatching = () => {
     if (!navigator.geolocation) {
-      setError("이 브라우저는 위치 기능을 지원하지 않아요.");
+      toast.error("이 브라우저는 위치 기능을 지원하지 않아요.");
+      // setError("이 브라우저는 위치 기능을 지원하지 않아요.");
       return;
     }
 
@@ -126,16 +127,16 @@ function GPS({
         console.log(
           `새 위치: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} (정확도: ${posAccuracy}m)`
         );
-        setAccuracy(posAccuracy);
-        setTimestamp(pos.timestamp);
+        // setAccuracy(posAccuracy);
+        // setTimestamp(pos.timestamp);
         setLocation({ lat: latitude, lng: longitude });
         setLastUpdate(now);
-        setError(null);
+        // setError(null);
 
         toast.success(`위치 갱신됨 (정확도: ${posAccuracy.toFixed(2)}m)`);
       },
-      (err) => {
-        setError(`위치 요청 실패: ${err.message}`);
+      () => {
+        // setError(`위치 요청 실패: ${err.message}`);
         toast.error("위치를 추적할 수 없습니다");
       },
       {

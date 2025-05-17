@@ -59,7 +59,7 @@ export const useMissionStore = create<MissionState>((set, get) => ({
     const used = get().usedHintCount[missionId] ?? 0;
     if (used >= 3) return;
 
-    const hintOrder = (used + 1).toString();
+    // const hintOrder = (used + 1).toString();
 
     // ✅ useHint 내부에서 직접 API 호출은 하지 말고 HintDialog에서 trigger
   },
