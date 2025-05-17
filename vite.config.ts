@@ -11,4 +11,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"), // 📌 별칭 등록
     },
   },
+  server: {
+    host: true, // 또는 '0.0.0.0'
+    allowedHosts: [
+      "macproui-macbookpro.tail202951.ts.net", // 너 Tailscale 주소 그대로 넣기
+    ],
+  },
 });
