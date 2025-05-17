@@ -13,7 +13,7 @@ export function useEnterCode() {
   const { mutateAsync: checkAuthCode } = useCheckAuthCode();
   const { login } = useAuth();
   const isComplete = codes.every((c) => c.trim() !== "");
-  const { setCode, setRole } = useMissionStore();
+  const { setCode, setRole, setLeader } = useMissionStore();
 
   const change = (v: string, i: number) => {
     if (v.length > 1) return;
@@ -33,11 +33,12 @@ export function useEnterCode() {
     const { code, data } = await checkAuthCode(Number(codes.join("")));
     if (code === 200) {
       setCode(codes.join(""));
-      if (data.participated === true) {
+      if (data.participated === true && data.jwtResponse) {
         login(data.jwtResponse.accessToken, data.jwtResponse.refreshToken);
         navigate("/mission");
       } else {
-        setRole(data.isLeader ? "ROLE_ADMIN" : "ROLE_USER");
+        if (data.isLeader) setLeader(data.isLeader);
+        setRole("ROLE_USER");
         navigate("/profile");
       }
     }
