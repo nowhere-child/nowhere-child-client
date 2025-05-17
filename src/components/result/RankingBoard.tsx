@@ -5,14 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"; // Button 컴포넌트 import
 import { useEffect, useState } from "react"; // useState와 useEffect import
 
-export interface RankItem {
-  rank: number;
-  name: string;
-  score: number;
-  department: string;
-  isMe?: boolean;
-}
-
 export default function RankingBoard({
   rankingData,
   nowTeam,
