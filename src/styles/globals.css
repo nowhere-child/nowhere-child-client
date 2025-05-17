@@ -15,6 +15,24 @@
   font-display: swap;
 }
 
+/* Nightcore 폰트 등록 */
+@font-face {
+  font-family: "Nightcore";
+  src: url("../assets/font/NightcoreDemo.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* MoonofMercury 폰트 등록 */
+@font-face {
+  font-family: "MoonofMercury";
+  src: url("../assets/font/HypotheticalmoonofMercury.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --vh: 100vh; /* iOS 100 vh 보정 */
 }
