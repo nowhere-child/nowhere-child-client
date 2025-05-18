@@ -41,6 +41,7 @@ const ProfilePage = () => {
             </Button>
           </form>
         </Form>
+        <div className="h-[60px]"></div>
       </div>
     </div>
   );
