@@ -58,13 +58,21 @@ export default function AppRoutes() {
       <Route
         path="/admin"
         element={
-          <ProtectedRoute>
-            <Admin />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Admin />
+          // </ProtectedRoute>
         }
       />
 
-      <Route path="*" element={<div>404</div>} />
+      <Route
+        path="*"
+        element={
+          <div className="flex justify-center items-center">
+            <p>잘못된 접근입니다.</p>
+            <button>돌아 가기</button>
+          </div>
+        }
+      />
     </Routes>
   );
 }

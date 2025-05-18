@@ -69,7 +69,7 @@ export type SignupParams = {
   department: string;
   yearOfAdmission: number;
   authenticateCode: number;
-  teamName: string;
+  teamName?: string;
   gameId: number;
   role: "ROLE_USER" | "ROLE_ADMIN";
 };
@@ -83,6 +83,18 @@ export const SignUpResponseSchema = z.object({
   }),
 });
 
+export const getInfoResponseSchema = z.object({
+  code: z.number(),
+  message: z.string(),
+  data: z.object({
+    teamName: z.string(),
+    teamId: z.number(),
+    startedAt: z.string(),
+    totalHintCount: z.number(),
+    useHintCount: z.number(),
+  }),
+});
+
 export const signup = async (body: SignupParams) => {
   const { data } = await api.post("/members/sign-up", body);
   const parsedData = SignUpResponseSchema.parse(data);
@@ -92,5 +104,13 @@ export const signup = async (body: SignupParams) => {
     parsedData.data.refreshToken
   );
 
+  return parsedData;
+};
+
+export const getInfo = async (gameId: number) => {
+  const { data } = await api.get("/members/info", {
+    params: { gameId },
+  });
+  const parsedData = getInfoResponseSchema.parse(data);
   return parsedData;
 };

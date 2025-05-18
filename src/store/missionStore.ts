@@ -11,6 +11,7 @@ interface MissionState {
   startedAt: number | null;
   role: "ROLE_USER" | "ROLE_ADMIN";
   isLeader: boolean;
+  roomNumber: number;
 
   setCode: (code: string) => void;
   setNickname: (name: string) => void;
@@ -23,6 +24,7 @@ interface MissionState {
   setRole: (role: "ROLE_USER" | "ROLE_ADMIN") => void;
   setMissionId: (id: number) => void;
   setLeader: (isLeader: boolean) => void;
+  setRoomNumber: (roomNumber: number) => void;
 }
 
 export const useMissionStore = create<MissionState>((set, get) => ({
@@ -34,7 +36,9 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   startedAt: null,
   role: "ROLE_USER",
   isLeader: false,
+  roomNumber: 0,
 
+  setRoomNumber: (roomNumber) => set({ roomNumber }),
   setLeader: (isLeader) => set({ isLeader }),
   setCode: (code) => set({ code }),
   setNickname: (nickname) => set({ nickname }),

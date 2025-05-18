@@ -16,18 +16,14 @@ export default function MissionEngine() {
 
   /* ① 재접속 시 진행 상황 복원 ------------------------------ */
   useEffect(() => {
-    console.log("recordData", recordData);
     if (recordData && missionId == null) {
-      console.log("recordData", recordData);
       setMissionId(recordData.missionOrder);
     }
-  }, [recordData, missionId, setMissionId]);
 
-  useEffect(() => {
     if (missionId && missionId > 9) {
       navigate("/result", { replace: true });
     }
-  }, [missionId, navigate]);
+  }, [recordData, missionId, setMissionId, navigate]);
 
   /* ② 현재 미션·정답 로드 ----------------------------------- */
   const { data: missionData, isLoading: mLoading } = useMission({
@@ -41,9 +37,6 @@ export default function MissionEngine() {
     gameId: 1,
     language: "KO",
   });
-
-  console.log("missionData", missionData);
-  console.log("answerdata", answerData);
 
   if (!missionData || !answerData || mLoading || aLoading) return null;
 

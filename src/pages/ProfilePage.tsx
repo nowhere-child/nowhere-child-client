@@ -3,11 +3,12 @@ import { ProfileFormFields } from "@/components/profile/ProfileFormFields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useProfileForm } from "@/hooks/useProfileForm";
+import { useMissionStore } from "@/store/missionStore";
 import { ChevronLeft } from "lucide-react";
 
 const ProfilePage = () => {
   const { form, checkDuplicate, onSubmit } = useProfileForm();
-
+  const { isLeader } = useMissionStore();
   return (
     <div className="flex flex-col bg-[#1A1A1A] text-gray-50">
       <div className="pb-6 pt-5 pl-5">
@@ -30,7 +31,10 @@ const ProfilePage = () => {
 
             <Button
               type="submit"
-              disabled={!form.formState.isValid}
+              disabled={
+                !form.formState.isValid ||
+                (isLeader && !form.getValues("teamName"))
+              }
               className="flex mt-10 py-6 mx-5 my-5 rounded-[14px] bg-[#3182F6] disabled:bg-neutral-700"
             >
               다음
