@@ -4,13 +4,14 @@ import { useMission } from "@/hooks/useMission";
 import { usePersonalRecord } from "@/hooks/useRecord";
 import { useMissionStore } from "@/store/missionStore";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import StickyBottomBar from "../common/BottomBar";
 import MissionProgressBar from "../common/MissionProgressBar";
 import MissionRenderer from "./MissionRenderer";
 
 export default function MissionEngine() {
   const { missionId, setMissionId } = useMissionStore();
-  console.log("missionId", missionId);
+  const navigate = useNavigate();
   const { data: recordData } = usePersonalRecord(1);
 
   /* ① 재접속 시 진행 상황 복원 ------------------------------ */
@@ -21,6 +22,12 @@ export default function MissionEngine() {
       setMissionId(recordData.missionOrder);
     }
   }, [recordData, missionId, setMissionId]);
+
+  useEffect(() => {
+    if (missionId && missionId > 9) {
+      navigate("/result", { replace: true });
+    }
+  }, [missionId, navigate]);
 
   /* ② 현재 미션·정답 로드 ----------------------------------- */
   const { data: missionData, isLoading: mLoading } = useMission({

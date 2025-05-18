@@ -2,6 +2,9 @@ import OverallRankPoster from "@/components/result/OverallRankPoster";
 import RankingBoard from "@/components/result/RankingBoard";
 import RankingCard from "@/components/result/RankingCard";
 import { useTeamRanking, useTeamRecord } from "@/hooks/useRecord";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export interface TeamRecord {
   gameId: number;
@@ -15,11 +18,18 @@ export interface TeamRecord {
 }
 
 export default function ResultPage() {
+  const navigate = useNavigate();
   const { data: rankingResponse } = useTeamRanking(1);
   const rankingData: TeamRecord[] = rankingResponse || [];
   const { data: myRankingData } = useTeamRecord(1);
   console.log("aa", rankingData);
   console.log(myRankingData);
+  useEffect(() => {
+    if (myRankingData && !myRankingData.score) {
+      toast.error("잘못된 접근입니다.");
+      navigate("/mission", { replace: true });
+    }
+  }, [myRankingData, navigate]);
   return (
     <div className="flex flex-col h-dvh bg-[#1A1A1A] text-white">
       <main className="flex-1 overflow-y-auto p-4 space-y-12">
