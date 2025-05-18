@@ -20,6 +20,11 @@ export default function AdminPage() {
     authenticateCodeList: [-1],
   });
 
+  const ADMIN_PASSWORD = "0049"; // 실제 운영 환경에서는 환경 변수 등을 사용하는 것이 좋습니다.
+  // 비밀번호 관련 상태
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   //
 
   const updateRecordMutation = useUpdateRecord();
@@ -27,6 +32,18 @@ export default function AdminPage() {
 
   const { mutateAsync: adminlogin } = useLogin();
   const { login: authLogin } = useAuth();
+
+  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (enteredPassword === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      toast.success("관리자 인증 성공!");
+      setEnteredPassword(""); // 입력 필드 초기화
+    } else {
+      toast.error("비밀번호가 일치하지 않습니다.");
+      setEnteredPassword(""); // 입력 필드 초기화
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,6 +82,33 @@ export default function AdminPage() {
     console.log("코드 생성:", createdCode);
     setCreatedCode(createdCode);
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-2xl font-bold mb-4">관리자 인증</h1>
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="space-y-4 max-w-xs w-full"
+        >
+          <div>
+            <Label htmlFor="adminPassword">비밀번호</Label>
+            <Input
+              id="adminPassword"
+              type="password"
+              value={enteredPassword}
+              onChange={(e) => setEnteredPassword(e.target.value)}
+              placeholder="관리자 비밀번호를 입력하세요"
+              required
+            />
+          </div>
+          <Button type="submit" className="w-full">
+            인증
+          </Button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4">
