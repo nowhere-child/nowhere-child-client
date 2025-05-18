@@ -72,7 +72,9 @@ export default function OverallRankPoster(
           })
           .catch((error) => {
             console.error("이미지 캡처 중 오류가 발생했습니다:", error);
-            alert("이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요.");
+            toast.error(
+              "이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요."
+            );
           })
           .finally(() => {
             button.style.display = originalDisplay; // 버튼 다시 보이게 하기
@@ -80,7 +82,7 @@ export default function OverallRankPoster(
           });
       } catch (error) {
         console.error("캡처 시도 중 오류가 발생했습니다:", error);
-        alert("이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요.");
+        toast.error("이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요.");
         button.style.display = originalDisplay; // 오류 발생 시에도 버튼 다시 보이게 하기
       }
     }
