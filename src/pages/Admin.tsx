@@ -189,8 +189,8 @@ export default function AdminPage() {
       <Button
         onClick={() => {
           adminlogin({
-            name: "김도현",
-            phoneNumber: "010-2430-0005",
+            name: "김기찬",
+            phoneNumber: "01024301468",
             role: "ROLE_ADMIN",
           })
             .then((res) => {
