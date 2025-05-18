@@ -32,7 +32,7 @@ export default function HintDialog({ children }: Props) {
     if (missionHints.length >= used + 1) return;
     try {
       const data = await fetchHint({
-        missionId,
+        missionId: missionId - 1,
         gameId: 1, // 🔁 필요 시 가져오기
         hintOrder: nextHintOrder,
       });
