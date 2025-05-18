@@ -1,4 +1,4 @@
-import { useMissionStore } from "@/store/missionStore";
+import { useGetMemberInfo } from "@/hooks/useMember";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
@@ -12,7 +12,7 @@ dayjs.locale("ko");
 export default function ChatMessageList({ className = "" }) {
   const { messages } = useChat();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { nickname } = useMissionStore();
+  const { data } = useGetMemberInfo(1);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -31,7 +31,7 @@ export default function ChatMessageList({ className = "" }) {
       {messages.map((m, i) => (
         <div
           key={i}
-          className={`flex flex-col ${m.memberName === nickname ? "items-end" : "items-start"}`}
+          className={`flex flex-col ${m.memberName === data?.data.memberName ? "items-end" : "items-start"}`}
         >
           <span className="text-xs text-zinc-400">{m.memberName}</span>
           <div className="bg-zinc-900 text-white rounded-xl px-4 py-2 max-w-[80%] break-all">
