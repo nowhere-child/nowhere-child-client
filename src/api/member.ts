@@ -92,6 +92,7 @@ export const getInfoResponseSchema = z.object({
     startedAt: z.string(),
     totalHintCount: z.number(),
     useHintCount: z.number(),
+    memberName: z.string(),
   }),
 });
 
