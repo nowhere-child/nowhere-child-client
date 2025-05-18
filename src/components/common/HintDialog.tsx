@@ -73,36 +73,50 @@ export default function HintDialog({ children }: Props) {
               </div>
             </div>
 
-            {/* 설명 */}
-            <p className="text-center text-zinc-600 text-[17px] font-medium mt-9 px-8 leading-snug">
-              문제 하나 당 <span className="font-semibold">3개의 힌트</span>만
-              사용 가능합니다.
-            </p>
-
-            {/* 폴더 일러스트 (svg inline – 색상 연하게) */}
-            <div className="flex justify-center ">
-              <svg
-                width="160"
-                height="160"
-                viewBox="0 0 160 160"
-                fill="none"
-                className="opacity-70"
-              >
-                <circle cx="80" cy="80" r="70" fill="#F5F5F5" />
-                <rect
-                  x="50"
-                  y="60"
-                  width="60"
-                  height="50"
-                  rx="4"
-                  fill="#E0E0E0"
-                />
-                <path
-                  d="M46 95a4 4 0 0 1 4-4h60a4 4 0 0 1 4 4v22H46V95Z"
-                  fill="#D4D4D4"
-                />
-              </svg>
-            </div>
+            {missionHints.length > 0 && (
+              <div className="mt-6 px-6 space-y-2 min-h-[185px]">
+                {missionHints.map((hint, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-sm whitespace-pre-wrap"
+                  >
+                    <span className="font-semibold">힌트 {idx + 1}:</span>{" "}
+                    {hint}
+                  </div>
+                ))}
+              </div>
+            )}
+            {remain > 2 && (
+              <>
+                <p className="text-center text-zinc-600 text-[17px] font-medium mt-9 px-8 leading-snug">
+                  문제 하나 당 <span className="font-semibold">3개의 힌트</span>
+                  만 사용 가능합니다.
+                </p>
+                <div className="flex justify-center ">
+                  <svg
+                    width="160"
+                    height="160"
+                    viewBox="0 0 160 160"
+                    fill="none"
+                    className="opacity-70"
+                  >
+                    <circle cx="80" cy="80" r="70" fill="#F5F5F5" />
+                    <rect
+                      x="50"
+                      y="60"
+                      width="60"
+                      height="50"
+                      rx="4"
+                      fill="#E0E0E0"
+                    />
+                    <path
+                      d="M46 95a4 4 0 0 1 4-4h60a4 4 0 0 1 4 4v22H46V95Z"
+                      fill="#D4D4D4"
+                    />
+                  </svg>
+                </div>
+              </>
+            )}
 
             {/* 힌트 버튼 */}
             <div className="p-2">
@@ -115,18 +129,6 @@ export default function HintDialog({ children }: Props) {
               </Button>
             </div>
           </div>
-          {missionHints.length > 0 && (
-            <div className="mt-6 px-6 space-y-2">
-              {missionHints.map((hint, idx) => (
-                <div
-                  key={idx}
-                  className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-sm whitespace-pre-wrap"
-                >
-                  <span className="font-semibold">힌트 {idx + 1}:</span> {hint}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </DialogContent>
     </Dialog>
