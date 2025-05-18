@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Admin from "./pages/Admin";
 import MissionPage from "./pages/MissionPage";
 import ProfilePage from "./pages/ProfilePage";
+import RankingBoard from "./pages/RankingBoard";
 import ResultPage from "./pages/ResultPage";
 
 export default function AppRoutes() {
@@ -55,14 +56,8 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/admin"
-        element={
-          // <ProtectedRoute>
-          <Admin />
-          // </ProtectedRoute>
-        }
-      />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/raking-board" element={<RankingBoard />} />
 
       <Route
         path="*"
