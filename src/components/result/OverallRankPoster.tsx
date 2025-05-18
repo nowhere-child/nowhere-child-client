@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import html2canvas from "html2canvas-pro";
 import { Download } from "lucide-react";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 /**
  * 게임 클리어 후 보여주는 메인 랭크 포스터.
@@ -75,6 +76,7 @@ export default function OverallRankPoster(
           })
           .finally(() => {
             button.style.display = originalDisplay; // 버튼 다시 보이게 하기
+            toast.success("이미지가 저장되었습니다."); // 성공 메시지
           });
       } catch (error) {
         console.error("캡처 시도 중 오류가 발생했습니다:", error);
