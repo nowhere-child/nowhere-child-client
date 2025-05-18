@@ -194,11 +194,11 @@ function GPS({
 
       <button
         onClick={handleGPS}
-        // disabled={!isValid}
+        disabled={!isValid}
         className={`w-full py-4 rounded-[20px] text-lg mt-4 ${
           isValid
             ? "bg-blue-400 text-white"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-gray-600 text-gray-500 cursor-not-allowed"
         }`}
       >
         📍 위치 인증하기
