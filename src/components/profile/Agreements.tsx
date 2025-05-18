@@ -46,7 +46,11 @@ export const Agreements = () => {
                 />
               </FormControl>
               <span>개인정보 처리방침 (필수)</span>
-              <a href="/policy/privacy" className="ml-auto underline">
+              <a
+                href="https://yeonnybus.notion.site/1f7cd91a96d480d19e0bcfebb489df6b?pvs=4"
+                target="_blank"
+                className="ml-auto underline"
+              >
                 보기
               </a>
             </FormItem>
@@ -65,7 +69,11 @@ export const Agreements = () => {
                 />
               </FormControl>
               <span>비밀 유지 동의 (필수)</span>
-              <a href="/policy/secret" className="ml-auto underline">
+              <a
+                href="https://yeonnybus.notion.site/1f7cd91a96d48095a385ecb8ea51bcb0?pvs=4"
+                target="_blank"
+                className="ml-auto underline"
+              >
                 보기
               </a>
             </FormItem>
