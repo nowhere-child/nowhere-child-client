@@ -16,7 +16,7 @@ export default function StickyBottomBar() {
         </MapDialog>
         <ChatSheet>
           <SheetTrigger asChild>
-            <button className="p-2">
+            <button className="bg-zinc-300 rounded-4xl p-2">
               <MessageCircle className="w-5 h-5" />
             </button>
           </SheetTrigger>
