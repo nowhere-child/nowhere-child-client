@@ -25,6 +25,7 @@ export const linePaperStyle: React.CSSProperties = {
 
 export const FolderNote: React.FC<FolderNoteProps> = ({ text }) => {
   const lines = text.split("\n");
+  console.log("lines", lines);
 
   return (
     <label className="relative block w-80 select-none h-[130px]">
@@ -46,7 +47,7 @@ export const FolderNote: React.FC<FolderNoteProps> = ({ text }) => {
         className="
           absolute inset-x-0 bottom-20
           overflow-hidden
-          h-6 peer-checked:h-[285px]
+          h-6 peer-checked:h-[265px]
           transition-[height] duration-500 ease-out
           z-10
         "
@@ -54,7 +55,7 @@ export const FolderNote: React.FC<FolderNoteProps> = ({ text }) => {
         {/* 실제 종이 */}
         <div
           className="
-            w-[90%] mx-auto h-[285px]
+            w-[90%] mx-auto h-[265px]
             bg-white rounded-xl shadow-lg
             px-5 py-4
             font-hand text-gray-900
