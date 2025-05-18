@@ -20,7 +20,7 @@ export default function AdminPage() {
     authenticateCodeList: [-1],
   });
 
-  const ADMIN_PASSWORD = "0049"; // 실제 운영 환경에서는 환경 변수 등을 사용하는 것이 좋습니다.
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN; // 실제 운영 환경에서는 환경 변수 등을 사용하는 것이 좋습니다.
   // 비밀번호 관련 상태
   const [enteredPassword, setEnteredPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
