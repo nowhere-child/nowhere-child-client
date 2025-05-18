@@ -167,7 +167,7 @@ function GPS({
   }, [watchId]);
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-1 items-center">
       <div className="flex items-center justify-center gap-4">
         <div
           className={`h-4 w-4 rounded-full ${watchId !== null ? "bg-blue-400" : "bg-white"}`}
@@ -177,7 +177,7 @@ function GPS({
             onClick={startWatching}
             className="px-4 py-2 bg-white text-black rounded-lg text-sm"
           >
-            📍 위치 추적 시작하기
+            ▶️ 위치 추적 시작하기
           </button>
         ) : (
           <button
@@ -188,13 +188,14 @@ function GPS({
           </button>
         )}
       </div>
+      <p>점점 정확해질거에요!</p>
       <p>{location?.lat}</p>
       <p>{location?.lng}</p>
 
       <button
         onClick={handleGPS}
         // disabled={!isValid}
-        className={`w-full py-4 rounded-[20px] text-lg mt-4 ${
+        className={`w-full py-2 rounded-[20px] text-lg mt-4 ${
           isValid
             ? "bg-blue-400 text-white"
             : "bg-gray-600 text-gray-500 cursor-not-allowed"
@@ -202,6 +203,9 @@ function GPS({
       >
         📍 위치 인증하기
       </button>
+      <div className="text-center">
+        <p className="pb-10">확신을 가지고 목적지를 돌아다녀 주세요!</p>
+      </div>
     </div>
   );
 }

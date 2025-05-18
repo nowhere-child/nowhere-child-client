@@ -72,7 +72,7 @@ export function useProfileForm() {
       form.setError("teamName", { message: "이미 사용 중인 팀명입니다." });
     } else {
       form.clearErrors("teamName");
-      alert("사용 가능한 팀명입니다.");
+      toast.success("사용 가능한 팀명입니다.");
     }
   };
 
@@ -81,7 +81,7 @@ export function useProfileForm() {
     if (isLeader) {
       const teamNameToSubmit = data.teamName;
       if (!teamNameToSubmit) {
-        form.setError("teamName", { message: "팀명을 입력해주세요." });
+        toast.error("팀명을 입력해주세요.");
         return;
       }
       // 제출 직전에도 팀명 중복 검사 (선택 사항이지만 권장)

@@ -1,6 +1,5 @@
 import { Agreements } from "@/components/profile/Agreements";
 import { ProfileFormFields } from "@/components/profile/ProfileFormFields";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useProfileForm } from "@/hooks/useProfileForm";
 import { useMissionStore } from "@/store/missionStore";
@@ -29,16 +28,16 @@ const ProfilePage = () => {
               <Agreements />
             </div>
 
-            <Button
+            <button
               type="submit"
               disabled={
                 !form.formState.isValid ||
                 (isLeader && !form.getValues("teamName"))
               }
-              className="flex my-10 mb-24 py-6 mx-5 rounded-[14px] bg-[#3182F6] disabled:bg-neutral-700"
+              className="flex my-10 mb-24 py-3 mx-5 rounded-[14px] bg-[#3182F6] disabled:bg-neutral-700 justify-center text-lg"
             >
               다음
-            </Button>
+            </button>
           </form>
         </Form>
         <div className="h-[60px]"></div>

@@ -33,7 +33,7 @@ export default function MissionRenderer({
             key={i}
             className="snap-start overflow-x-hidden min-h-full flex items-center flex-col justify-center gap-5"
           >
-            {block.preset === "LETTER" && <div className="h-32" />}
+            {block.preset === "LETTER" && <div className="h-48" />}
             <BlockRenderer block={block} />
             {i === blocks.length - 1 && (
               <>{answer && <AnswerBar config={answer} />}</>
@@ -41,6 +41,7 @@ export default function MissionRenderer({
           </div>
         ))}
       </div>
+      <div className="h-[60px]" />
     </section>
   );
 }
