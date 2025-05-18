@@ -99,7 +99,7 @@ export default function AnswerBar({ config }: Props) {
           <DPadLock
             onSuccess={handleNext}
             setV={setV}
-            solution={["U", "D", "L", "R", "U"]}
+            solution={["R", "D", "L", "D", "R"]}
           />
         </div>
       );
