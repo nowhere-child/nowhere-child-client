@@ -194,7 +194,7 @@ function GPS({
 
       <button
         onClick={handleGPS}
-        // disabled={!isValid}
+        disabled={!isValid}
         className={`w-full py-2 rounded-[20px] text-lg mt-4 ${
           isValid
             ? "bg-blue-400 text-white"
