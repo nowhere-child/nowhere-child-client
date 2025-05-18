@@ -1,7 +1,9 @@
+import { useMissionStore } from "@/store/missionStore";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useEffect, useRef } from "react";
 import { useChat } from "./ChatProvider";
 
 dayjs.extend(relativeTime);
@@ -9,17 +11,36 @@ dayjs.locale("ko");
 
 export default function ChatMessageList({ className = "" }) {
   const { messages } = useChat();
+  console.log("messages", messages);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { nickname } = useMissionStore();
+  console.log("nickname", nickname);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
-    <div className={clsx("space-y-3 overflow-y-auto px-4", className)}>
+    <div
+      ref={scrollRef}
+      className={clsx(
+        "space-y-3 overflow-y-auto px-4 flex-grow flex flex-col",
+        className
+      )}
+    >
       {messages.map((m, i) => (
-        <div key={i} className="flex flex-col items-start">
-          <span className="text-xs text-zinc-400">{m.author}</span>
+        <div
+          key={i}
+          className={`flex flex-col ${m.memberName === nickname ? "items-end" : "items-start"}`}
+        >
+          <span className="text-xs text-zinc-400">{m.memberName}</span>
           <div className="bg-zinc-900 text-white rounded-xl px-4 py-2 max-w-[80%] break-all">
-            {m.content}
+            {m.msg}
           </div>
           <span className="text-[10px] text-zinc-400 ml-1">
-            {dayjs(m.ts).fromNow()}
+            {dayjs(m.createdAt).fromNow()}
           </span>
         </div>
       ))}

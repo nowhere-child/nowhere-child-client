@@ -8,6 +8,7 @@ export async function fetchHistory(gameId: number) {
   const { data } = await api.get("/chats/room", {
     params: { gameId },
   });
+  console.log("히스토리 불러왔음", data);
 
   /* Swagger 응답을 zod로 검증 */
   const Schema = z.object({
@@ -18,7 +19,6 @@ export async function fetchHistory(gameId: number) {
       teamId: z.number(),
       messages: z.array(
         z.object({
-          roomNumber: z.number(),
           msg: z.string(),
           createdAt: z.string(),
           memberName: z.string(),
@@ -30,11 +30,11 @@ export async function fetchHistory(gameId: number) {
   const parsed = Schema.parse(data);
   /* createdAt → epoch(ms) 로 변환 + author 는 memberId 로 임시 설정 */
   const history: ChatMessage[] = parsed.data.messages.map((m) => ({
-    author: String(m.memberName),
-    content: m.msg,
-    ts: Date.parse(m.createdAt),
+    memberName: String(m.memberName),
+    msg: m.msg,
+    createdAt: Date.parse(m.createdAt),
   }));
-  return history;
+  return { history, roomNumber: parsed.data.roomNumber };
 }
 
 /* ---------- ② WebSocket Payload 타입 재-export ---------- */
