@@ -100,7 +100,7 @@ export const ProfileFormFields = ({ onDup }: Props) => {
 
               {/* 헬퍼 + 메시지 */}
               <p className="mt-2 text-[11px] text-neutral-400 leading-none">
-                2~13자 이하 입력
+                2~8자 이하 입력
               </p>
             </FieldRow>
           )}
