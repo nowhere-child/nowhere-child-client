@@ -9,7 +9,7 @@ import {
 import { useGetMemberInfo } from "@/hooks/useMember";
 import { useMissionStore } from "@/store/missionStore";
 import { differenceInSeconds } from "date-fns";
-import { Headset, Menu } from "lucide-react";
+import { Headset, Menu, Paperclip } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const MissionProgressBar = () => {
@@ -93,6 +93,16 @@ const MissionProgressBar = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="absolute bottom-10 left-4">
+                <a
+                  href="https://yeonnybus.notion.site/1f7cd91a96d4804a9d2fc1e3f51bb3a5?pvs=4"
+                  target="_blank"
+                  className="text-xl flex gap-2"
+                >
+                  <Paperclip size={30} />
+                  지도 설정 안내
+                </a>
               </div>
               <div className="absolute bottom-10 right-4">
                 <a href="https://open.kakao.com/o/scIF82wh" target="_blank">
