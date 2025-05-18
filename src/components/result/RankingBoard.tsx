@@ -54,7 +54,6 @@ export default function RankingBoard({
     setCurrentPage(totalPages);
   };
 
-  console.log("RankingBoard", rankingData);
   return (
     <div className="w-full mx-auto bg-zinc-900 text-white p-4 px-1 rounded-lg">
       <h2 className="text-xl font-medium mb-5">전체 순위</h2>

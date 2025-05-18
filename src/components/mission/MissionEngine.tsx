@@ -20,7 +20,7 @@ export default function MissionEngine() {
       setMissionId(recordData.missionOrder);
     }
 
-    if (missionId && missionId > 9) {
+    if (missionId && missionId > 10) {
       navigate("/result", { replace: true });
     }
   }, [recordData, missionId, setMissionId, navigate]);

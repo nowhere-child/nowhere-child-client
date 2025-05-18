@@ -2,7 +2,7 @@
 export interface ChatMessage {
   /** 작성자 닉네임 (백엔드에서 내려주지 않는 경우 클라이언트에서 매핑) */
   memberName?: string;
-  roomNumber: number;
+  roomNumber?: number;
   /** 실제 내용 */
   msg: string;
   /** epoch(ms) */

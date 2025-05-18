@@ -29,8 +29,6 @@ interface OverallRankPosterProps {
 export default function OverallRankPoster(
   myRankingData: OverallRankPosterProps
 ) {
-  console.log(myRankingData);
-
   const gradeToImageMap: { [key: string]: string } = {
     "A+": rankAssets.Aprank,
     A: rankAssets.Arank,

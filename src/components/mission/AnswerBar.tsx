@@ -23,7 +23,6 @@ interface Props {
 
 export default function AnswerBar({ config }: Props) {
   const [v, setV] = useState("");
-  console.log("v", v);
 
   /* ① 성공 기록 업로드 */
   const { mutateAsync: finishMission } = useSubmitAnswer();
@@ -47,7 +46,7 @@ export default function AnswerBar({ config }: Props) {
       language: "KO",
     });
     setV("");
-    if (missionId === 9) {
+    if (missionId === 10) {
       navigate("/result");
       return;
     }

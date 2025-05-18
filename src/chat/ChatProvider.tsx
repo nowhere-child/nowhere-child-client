@@ -39,7 +39,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const { history: history, roomNumber: fetchedRoomNumber } =
         await ChatAPI.fetchHistory(gameId);
-      console.log("history", history);
       setMsgs(history); // 전체 갱신
       if (fetchedRoomNumber !== undefined) {
         // roomNumber가 유효한 경우
@@ -105,13 +104,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       msg: text,
       roomNumber: String(roomNumber),
     };
-    console.log("send", payload);
 
     // ws.send(JSON.stringify(payload));
     try {
-      console.log(JSON.stringify(payload));
       ws.send(JSON.stringify(payload));
-      console.log("Message sent successfully");
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("메시지 전송 중 오류가 발생했습니다.");

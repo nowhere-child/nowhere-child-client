@@ -46,7 +46,6 @@ export type LoginParams = {
 
 export const login = async (params: LoginParams) => {
   const { data } = await api.post("/members/login", params);
-  console.log("로그인 응답", data);
   return data; // 단순 응답
 };
 // export const login = async (params: LoginParams) => {

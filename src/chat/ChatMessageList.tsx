@@ -11,10 +11,8 @@ dayjs.locale("ko");
 
 export default function ChatMessageList({ className = "" }) {
   const { messages } = useChat();
-  console.log("messages", messages);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { nickname } = useMissionStore();
-  console.log("nickname", nickname);
 
   useEffect(() => {
     if (scrollRef.current) {

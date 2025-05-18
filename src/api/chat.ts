@@ -8,7 +8,6 @@ export async function fetchHistory(gameId: number) {
   const { data } = await api.get("/chats/room", {
     params: { gameId },
   });
-  console.log("히스토리 불러왔음", data);
 
   /* Swagger 응답을 zod로 검증 */
   const Schema = z.object({

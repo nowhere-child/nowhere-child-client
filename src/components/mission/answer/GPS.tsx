@@ -51,7 +51,6 @@ function useLocationValidation(
     // latMin: 37.583441;
     // lngMax: 127.060367;
     // lngMin: 127.059774;
-    console.log(latMin, latMax, lngMin, lngMax);
 
     // 위도와 경도가 모두 범위 내에 있는지 확인
     const isValidLocation =
@@ -194,7 +193,7 @@ function GPS({
 
       <button
         onClick={handleGPS}
-        disabled={!isValid}
+        // disabled={!isValid}
         className={`w-full py-4 rounded-[20px] text-lg mt-4 ${
           isValid
             ? "bg-blue-400 text-white"

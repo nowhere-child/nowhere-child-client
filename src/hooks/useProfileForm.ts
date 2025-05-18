@@ -42,8 +42,6 @@ export function useProfileForm() {
   // isLeader 값에 따라 스키마 결정
   const currentProfileSchema = createProfileSchema(isLeader);
 
-  console.log("useProfileForm", code, role, isLeader);
-
   const form = useForm<ProfileForm>({
     resolver: zodResolver(currentProfileSchema),
     mode: "onChange",
@@ -103,16 +101,14 @@ export function useProfileForm() {
 
     // 리더가 아닐 경우, 서버에서 teamName을 어떻게 처리할지에 따라 빈 문자열 또는 null 등으로 설정
     const { teamName: _teamName, ...restData } = data;
+    console.log(_teamName);
 
     const submissionData = isLeader ? data : restData; // teamName 제거
-
-    console.log("제출 데이터", submissionData);
 
     try {
       const { code: signUpResponseCode, data: submitData } = await signUp(
         submissionData as SignupParams
       );
-      console.log("회원가입 결과", signUpResponseCode);
 
       if (signUpResponseCode !== 200) {
         console.error("회원가입 실패", signUpResponseCode);
@@ -124,7 +120,6 @@ export function useProfileForm() {
         login(submitData.accessToken, submitData.refreshToken);
         setMissionId(1); // 초기 미션 ID 설정
         setNickname(submissionData.name); // Zustand 스토어에 닉네임 저장
-        console.log("회원가입 성공", submitData);
         navigate("/mission");
       }
     } catch (error) {

@@ -1,3 +1,4 @@
+import Audio from "./blocks/Audio";
 import { FolderNote } from "./blocks/FolderNote";
 import ImageBlock from "./blocks/ImageBlock";
 import { StickyNote } from "./blocks/StickyNote";
@@ -8,7 +9,7 @@ import { MissionBlock } from "./MissionRenderer";
 
 export default function BlockRenderer({ block }: { block: MissionBlock }) {
   switch (block.preset) {
-    case "LETTE":
+    case "LETTER":
       return (
         <>
           <FolderNote text={block.text} />
@@ -25,6 +26,9 @@ export default function BlockRenderer({ block }: { block: MissionBlock }) {
 
     case "NOTE2":
       return <TextNote2 text={block.text} />;
+
+    case "AUDIO":
+      return <Audio text={block.text} />;
 
     //오디오추가
 

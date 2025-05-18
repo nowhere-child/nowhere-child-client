@@ -31,7 +31,7 @@ export const useMissionStore = create<MissionState>((set, get) => ({
   code: "",
   nickname: "",
   missionId: null,
-  totalMissions: 9,
+  totalMissions: 10,
   hintsUsed: {},
   startedAt: null,
   role: "ROLE_USER",

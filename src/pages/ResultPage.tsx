@@ -22,8 +22,6 @@ export default function ResultPage() {
   const { data: rankingResponse } = useTeamRanking(1);
   const rankingData: TeamRecord[] = rankingResponse || [];
   const { data: myRankingData } = useTeamRecord(1);
-  console.log("aa", rankingData);
-  console.log(myRankingData);
   useEffect(() => {
     if (myRankingData && !myRankingData.score) {
       toast.error("잘못된 접근입니다.");
